@@ -80,6 +80,8 @@ dependencies {
     implementation (libs.androidx.core.ktx.v1120)
     implementation (libs.androidx.work.runtime.ktx)
     implementation( libs.androidx.datastore.preferences)
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0")
+
 
     debugImplementation(libs.androidx.ui.test.manifest)
 }
