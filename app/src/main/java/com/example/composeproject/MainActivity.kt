@@ -73,6 +73,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun SplashScreen(navController: NavController) {
 
+
+
     // Delay navigation for 2 seconds
     LaunchedEffect(Unit) {
         kotlinx.coroutines.delay(2000)
@@ -279,7 +281,7 @@ fun TaskItem(task: TaskEntity, onClick: () -> Unit, onRemove: () -> Unit, onEdit
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     var newTitle by remember { mutableStateOf(TextFieldValue(task.title)) }
-    var newDescription by remember { mutableStateOf(TextFieldValue(task.description)) }
+    var newDescription by remember { mutableStateOf(task.description?.let { TextFieldValue(it) }) }
     var newDate by remember { mutableStateOf(TextFieldValue(task.date)) }
 
     Card(
@@ -298,7 +300,7 @@ fun TaskItem(task: TaskEntity, onClick: () -> Unit, onRemove: () -> Unit, onEdit
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = task.title, style = MaterialTheme.typography.titleLarge)
-                Text(text = task.description, style = MaterialTheme.typography.bodyMedium)
+                task.description?.let { Text(text = it, style = MaterialTheme.typography.bodyMedium) }
                 Text(text = task.date, style = MaterialTheme.typography.bodyMedium)
             }
             IconButton(onClick = { showDeleteDialog = true }) {
@@ -323,11 +325,13 @@ fun TaskItem(task: TaskEntity, onClick: () -> Unit, onRemove: () -> Unit, onEdit
                         label = { Text("Title") }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    TextField(
-                        value = newDescription,
-                        onValueChange = { newDescription = it },
-                        label = { Text("Description") }
-                    )
+                    newDescription?.let {
+                        TextField(
+                            value = it,
+                            onValueChange = { newDescription = it },
+                            label = { Text("Description") }
+                        )
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                     TextField(
                         value = newDate,
@@ -341,7 +345,7 @@ fun TaskItem(task: TaskEntity, onClick: () -> Unit, onRemove: () -> Unit, onEdit
                     onClick = {
                         val updatedTask = task.copy(
                             title = newTitle.text,
-                            description = newDescription.text,
+                            description = newDescription?.text,
                             date = newDate.text
                         )
                         onEdit(updatedTask)
