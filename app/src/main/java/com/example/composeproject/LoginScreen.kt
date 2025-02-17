@@ -129,7 +129,7 @@ fun isValidEmail(email: String): Boolean {
     return emailPattern.matcher(email).matches()
 }
 
-// ✅ Preview function to see UI in Android Studio
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewLoginScreen() {

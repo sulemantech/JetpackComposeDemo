@@ -102,7 +102,7 @@ fun G8WayScreen() {
     }
 }
 
-// ✅ Preview function to see UI in Android Studio
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewG8WayScreen() {
