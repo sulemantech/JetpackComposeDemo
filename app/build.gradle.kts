@@ -49,6 +49,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+        defaultConfig {
+            multiDexEnabled = true
+        }
+
 }
 
 dependencies {
@@ -65,6 +69,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.foundation.layout.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,8 +85,8 @@ dependencies {
     implementation (libs.androidx.core.ktx.v1120)
     implementation (libs.androidx.work.runtime.ktx)
     implementation( libs.androidx.datastore.preferences)
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.5.0")
-
+    implementation (libs.androidx.ui.tooling.preview.v150)
+    implementation (libs.lottie.compose)
 
     debugImplementation(libs.androidx.ui.test.manifest)
 }

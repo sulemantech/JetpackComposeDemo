@@ -8,36 +8,65 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.composeproject.R
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            G8WayScreen()
+           // val navController = rememberNavController()
+            AppNavigation()
         }
     }
 }
 
 @Composable
-fun G8WayScreen() {
+fun AppNavigation() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "G8WayScreen") {
+        composable("G8WayScreen") { G8WayScreen(navController) }
+        composable("loginScreen") { LoginScreen(navController) }
+        composable("registerScreen") { RegisterScreen(navController) }
+        composable("EmailVerificationScreen") { EmailVerificationScreen(navController) }
+        composable("homeScreen") { HomeScreen(navController) }
+        composable("upload_ticket_screen") { UploadTicketScreen(navController) }
+    }
+}
+
+
+@Composable
+fun G8WayScreen(navController: NavController) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.aircraftstartpage))
+
+    val robotoFontFamily = FontFamily(
+        Font(R.font.roboto_regular) 
+    )
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(color = colorResource(id = R.color.background))
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
@@ -46,65 +75,62 @@ fun G8WayScreen() {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            // Airplane Image
-            Image(
-                painter = painterResource(id = R.drawable.img), // Replace with your image name
-                contentDescription = "Airplane",
+            LottieAnimation(
+                composition = composition,
+                iterations = LottieConstants.IterateForever,
                 modifier = Modifier.size(150.dp)
             )
 
-            // "G8WAY" Text with custom styling
-            Text(
-                buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.White, fontSize = 32.sp)) {
-                        append("G8")
-                    }
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.Cyan, fontSize = 32.sp)) {
-                        append("WAY")
-                    }
-                },
-                textAlign = TextAlign.Center
+            Image(
+                painter = painterResource(id = R.drawable.ic_g8way),
+                contentDescription = "Image from resources",
+                modifier = Modifier.size(147.dp,39.dp),
+                contentScale = ContentScale.Crop
             )
-
-            // Subtitle Text
             Text(
                 text = "Registrieren und mühelos navigieren",
-                color = Color.Gray,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center
+                color = Color.White,
+                fontSize = 21.sp,
+                textAlign = TextAlign.Center,
+                fontFamily = robotoFontFamily,
+                modifier = Modifier.padding(top = 16.dp)
             )
-
-            // Information Box
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = 24.dp)
                     .background(Color.DarkGray, shape = RoundedCornerShape(12.dp))
-                    .padding(16.dp)
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
                     Text("Nächster Flughafen:", color = Color.Gray, fontSize = 14.sp)
                     Text("Flughafen München (334 km)", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
             }
 
-            // Start Button
+
+
             Button(
-                onClick = { /* Handle Start Click */ },
+                onClick = {
+                    navController.navigate("loginScreen") },
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(top = 14.dp)
                     .height(64.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan),
-                shape = RoundedCornerShape(12.dp) // Rounded corners
+                shape = RoundedCornerShape(12.dp)
             ) {
                 Text("Start", color = Color.Black, fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
 }
-
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewG8WayScreen() {
-    G8WayScreen()
+    G8WayScreen(navController = rememberNavController())
 }

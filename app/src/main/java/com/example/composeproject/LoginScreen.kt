@@ -1,10 +1,13 @@
 package com.example.composeproject
 
+import androidx.compose.foundation.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.*
@@ -12,111 +15,125 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import java.util.regex.Pattern
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var isEmailValid by remember { mutableStateOf(true) }
 
+    val scrollState = rememberScrollState()
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
-            .padding(16.dp),
+            .background(color = colorResource(id = R.color.background))
+            .padding(16.dp)
+            .imePadding(),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(scrollState),
         ) {
-            // "G8WAY" Styled Text
-            Text(
-                buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.White, fontSize = 32.sp)) {
-                        append("G8")
-                    }
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, color = Color.Cyan, fontSize = 32.sp)) {
-                        append("WAY")
-                    }
-                },
-                textAlign = TextAlign.Center
+            Image(
+                painter = painterResource(id = R.drawable.ic_g8way),
+                contentDescription = "Image from resources",
+                modifier = Modifier.size(147.dp,39.dp),
+                contentScale = ContentScale.Crop
             )
 
-            // Login Text
+            Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Login",
-                color = Color.Gray,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Center
+                color = Color.White,
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(bottom = 40.dp)
             )
 
-            // Email Input Field
+
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("E-Mail", color = Color.Gray, fontSize = 14.sp)
+                Text("E-Mail", color = Color.White, fontSize = 14.sp,modifier = Modifier.padding(bottom = 8.dp))
                 OutlinedTextField(
                     value = email,
                     onValueChange = {
                         email = it
                         isEmailValid = isValidEmail(email.text)
                     },
-                    leadingIcon = { Icon(Icons.Filled.Email, contentDescription = "Email Icon", tint = Color.Gray) },
+                    leadingIcon = { Icon(Icons.Filled.Email, contentDescription = "Email Icon", tint = Color.White) },
                     placeholder = { Text("E-Mail", color = Color.Gray) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.Black),
+                    modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = if (isEmailValid) Color.Gray else Color.Red,
                         unfocusedBorderColor = if (isEmailValid) Color.Gray else Color.Red
                     ),
-                    isError = !isEmailValid
+                    isError = !isEmailValid,
+                    textStyle = TextStyle(color = Color.White)
                 )
 
-                // Show error message if email is invalid
                 if (!isEmailValid) {
                     Text(
                         text = "Diese E-Mail ist nicht registriert.",
                         color = Color.Red,
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 4.dp)
                     )
                 }
             }
 
-            // Login Button
+
             Button(
-                onClick = { isEmailValid = isValidEmail(email.text) },
+                onClick = {
+                    if (isValidEmail(email.text)) {
+                        navController.navigate("EmailVerificationScreen")
+                    } else {
+                        isEmailValid = false
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF008B8B)), // Dark cyan
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF008B8B)),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Login mit Magiclink", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text("Login mit Magiclink", color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(16.dp))
             }
+
+
 
             Text(
                 buildAnnotatedString {
                     append("Noch kein Konto? ")
-                    withStyle(style = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline)) {
+                    withStyle(style = SpanStyle(color = Color(0xFF008B8B), textDecoration = TextDecoration.Underline)) {
                         append("Registrieren")
                     }
                 },
                 fontSize = 14.sp,
-                color = Color.Gray,
+                color = Color.White,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.clickable { /* Handle Register Click */ }
+                modifier = Modifier.clickable {
+                    navController.navigate("registerScreen")
+                }
             )
         }
     }
@@ -129,9 +146,8 @@ fun isValidEmail(email: String): Boolean {
     return emailPattern.matcher(email).matches()
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewLoginScreen() {
-    LoginScreen()
+    LoginScreen(navController = rememberNavController())
 }
