@@ -29,7 +29,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
@@ -70,7 +69,7 @@ fun RegisterScreen(navController: NavController) {
                 .verticalScroll(scrollState),
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_g8way),
+                painter = painterResource(id = R.drawable.ic_g8_way_welcome),
                 contentDescription = "Image from resources",
                 modifier = Modifier.size(147.dp,39.dp),
                 contentScale = ContentScale.Crop
@@ -86,12 +85,20 @@ fun RegisterScreen(navController: NavController) {
             )
 
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("Name", color = Color.White, fontSize = 14.sp,modifier = Modifier.padding(bottom = 8.dp))
+                Text("Name",
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(bottom = 8.dp))
+
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
                     leadingIcon = {
-                        Icon(Icons.Filled.Person, contentDescription = "Person Icon", tint = Color.White)
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_profile),
+                            contentDescription = "Email Icon",
+                            tint = Color.White
+                        )
                     },
                     placeholder = { Text("Name", color = Color.Gray) },
                     modifier = Modifier.fillMaxWidth()
@@ -122,8 +129,13 @@ fun RegisterScreen(navController: NavController) {
                         email = it
                         isEmailValid = isValidEmailRegister(email.text)
                     },
-                    leadingIcon = { Icon(Icons.Filled.Email, contentDescription = "Email Icon", tint = Color.White) },
-                    placeholder = { Text("E-Mail", color = Color.Gray) },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_message),
+                            contentDescription = "Email Icon",
+                            tint = Color.White
+                        )
+                    },                    placeholder = { Text("E-Mail", color = Color.Gray) },
                     modifier = Modifier.fillMaxWidth()
                         .focusRequester(emailFocusRequester),
                     shape = RoundedCornerShape(12.dp),

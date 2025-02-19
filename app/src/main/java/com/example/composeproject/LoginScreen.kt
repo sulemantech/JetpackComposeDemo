@@ -14,6 +14,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -36,6 +37,8 @@ import java.util.regex.Pattern
 fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var isEmailValid by remember { mutableStateOf(true) }
+    var isFocused by remember { mutableStateOf(false) } // Track focus state
+
 
     val scrollState = rememberScrollState()
     Box(
@@ -54,7 +57,7 @@ fun LoginScreen(navController: NavController) {
                 .verticalScroll(scrollState),
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_g8way),
+                painter = painterResource(id = R.drawable.ic_g8_way_welcome),
                 contentDescription = "Image from resources",
                 modifier = Modifier.size(147.dp,39.dp),
                 contentScale = ContentScale.Crop
@@ -63,7 +66,7 @@ fun LoginScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Login",
-                color = Color.White,
+                color = colorResource(id = R.color.btn_text_field),
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 40.dp)
@@ -71,20 +74,39 @@ fun LoginScreen(navController: NavController) {
 
 
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text("E-Mail", color = Color.White, fontSize = 14.sp,modifier = Modifier.padding(bottom = 8.dp))
+                Text(
+                    "E-Mail",
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+
                 OutlinedTextField(
                     value = email,
                     onValueChange = {
                         email = it
-                        isEmailValid = isValidEmail(email.text)
                     },
-                    leadingIcon = { Icon(Icons.Filled.Email, contentDescription = "Email Icon", tint = Color.White) },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_message),
+                            contentDescription = "Email Icon",
+                            tint = Color.White
+                        )
+                    },
                     placeholder = { Text("E-Mail", color = Color.Gray) },
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onFocusChanged { focusState ->
+                            isFocused = focusState.isFocused
+                        },
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = if (isEmailValid) Color.Gray else Color.Red,
-                        unfocusedBorderColor = if (isEmailValid) Color.Gray else Color.Red
+                        focusedBorderColor = colorResource(id = R.color.blue),
+                        unfocusedBorderColor = when {
+                            isFocused -> colorResource(id = R.color.blue)
+                            isEmailValid -> Color.Gray
+                            else -> Color.Red
+                        }
                     ),
                     isError = !isEmailValid,
                     textStyle = TextStyle(color = Color.White)
@@ -98,33 +120,33 @@ fun LoginScreen(navController: NavController) {
                         modifier = Modifier.padding(top = 4.dp)
                     )
                 }
-            }
 
-
-            Button(
-                onClick = {
-                    if (isValidEmail(email.text)) {
-                        navController.navigate("EmailVerificationScreen")
-                    } else {
-                        isEmailValid = false
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF008B8B)),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text("Login mit Magiclink", color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+                        isEmailValid = isValidEmail(email.text)
+                        if (isEmailValid) {
+                            navController.navigate("EmailVerificationScreen")
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF008B8B)),
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    Text("Login mit Magiclink", color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                }
             }
+
 
 
 
             Text(
                 buildAnnotatedString {
                     append("Noch kein Konto? ")
-                    withStyle(style = SpanStyle(color = Color(0xFF008B8B), textDecoration = TextDecoration.Underline)) {
+                    withStyle(style = SpanStyle(color = colorResource(id = R.color.blue), textDecoration = TextDecoration.Underline)) {
                         append("Registrieren")
                     }
                 },

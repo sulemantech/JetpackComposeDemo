@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ComposeProject"
+rootProject.name = "G8WAY"
 include(":app")
  

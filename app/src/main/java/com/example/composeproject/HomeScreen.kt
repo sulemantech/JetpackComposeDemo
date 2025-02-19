@@ -13,10 +13,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -34,26 +30,17 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun HomeScreen(navController: NavController?) {
+fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
     val webView = remember { WebView(context) }
     val view = LocalView.current
 
-    if (navController != null) {
-        NoTicketsAvailable(navController = navController)
-    }
-
-    val isPreview = navController == null
-
-    if (!isPreview) {
-        SideEffect {
-            val window = (view.context as? android.app.Activity)?.window
-            window?.statusBarColor = android.graphics.Color.BLACK
-            WindowInsetsControllerCompat(window!!, window.decorView).isAppearanceLightStatusBars = false
-        }
+    SideEffect {
+        val window = (view.context as? android.app.Activity)?.window
+        window?.statusBarColor = android.graphics.Color.BLACK
+        WindowInsetsControllerCompat(window!!, window.decorView).isAppearanceLightStatusBars = false
     }
 
     Column(
@@ -61,7 +48,6 @@ fun HomeScreen(navController: NavController?) {
             .fillMaxSize()
             .background(color = colorResource(id = R.color.background))
     ) {
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -76,7 +62,7 @@ fun HomeScreen(navController: NavController?) {
             )
         }
 
-        NoTicketsAvailable(navController = rememberNavController())
+        NoTicketsAvailable(navController)
 
         Row(
             modifier = Modifier
@@ -91,53 +77,39 @@ fun HomeScreen(navController: NavController?) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (!isPreview) {
-            Box(modifier = Modifier.weight(1f)) {
-                AndroidView(
-                    factory = {
-                        webView.apply {
-                            layoutParams = ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.MATCH_PARENT
-                            )
-                            webViewClient = WebViewClient()
-                            webChromeClient = WebChromeClient()
-                            settings.apply {
-                                javaScriptEnabled = true
-                                domStorageEnabled = true
-                                cacheMode = WebSettings.LOAD_DEFAULT
-                                builtInZoomControls = false
-                            }
-                            loadUrl("https://g8way-app.com/map/")
+        Box(modifier = Modifier.weight(1f)) {
+            AndroidView(
+                factory = {
+                    webView.apply {
+                        layoutParams = ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT
+                        )
+                        webViewClient = WebViewClient()
+                        webChromeClient = WebChromeClient()
+                        settings.apply {
+                            javaScriptEnabled = true
+                            domStorageEnabled = true
+                            cacheMode = WebSettings.LOAD_DEFAULT
+                            builtInZoomControls = false
                         }
-                    },
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.DarkGray),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("WebView Placeholder", color = Color.White)
-            }
+                        loadUrl("https://g8way-app.com/map/")
+                    }
+                },
+                modifier = Modifier.fillMaxSize()
+            )
         }
 
-      //  BottomNavigationBar()
-
-        if (!isPreview) {
-            BackHandler {
-                if (webView.canGoBack()) {
-                    webView.goBack()
-                } else {
-                    navController?.popBackStack()
-                }
+        BackHandler {
+            if (webView.canGoBack()) {
+                webView.goBack()
+            } else {
+                navController.popBackStack()
             }
         }
     }
 }
+
 
 @Composable
 fun NoTicketsAvailable(navController: NavController) {
@@ -148,8 +120,7 @@ fun NoTicketsAvailable(navController: NavController) {
             .background(Color.DarkGray, shape = RoundedCornerShape(12.dp))
             .padding(16.dp)
             .clickable {
-                // Use the correct route name to navigate to the UploadTicketScreen
-             //   navController.navigate("upload_ticket_screen")
+                navController.navigate("upload_ticket_screen")
             },
         contentAlignment = Alignment.Center
     ) {
@@ -217,5 +188,7 @@ fun CategoryButton(text: String) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
-    HomeScreen(navController = null)
+    val navController = rememberNavController()
+    HomeScreen(navController)
 }
+

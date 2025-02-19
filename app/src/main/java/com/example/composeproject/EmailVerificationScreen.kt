@@ -12,21 +12,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.airbnb.lottie.LottieComposition
-import java.util.regex.Pattern
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 
 
@@ -35,6 +31,11 @@ fun EmailVerificationScreen (navController: NavController){
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.checkmails))
     val progress by animateLottieCompositionAsState(composition)
+
+    val customFont = FontFamily(
+        Font(R.font.roboto_light, FontWeight.Light)
+    )
+
 
     Box(
     modifier = Modifier
@@ -65,14 +66,16 @@ fun EmailVerificationScreen (navController: NavController){
                 text = "Bitte überprüfe Deine \n" +
                         "E-Mails und tippe auf \n" +
                         "den Link.",
-                color = Color.Gray,
+                color = colorResource(id = R.color.email_text_field),
                 fontSize = 24.sp,
-                textAlign = TextAlign.Center ,
+                textAlign = TextAlign.Center,
+                fontFamily = customFont,
+                fontWeight = FontWeight.Light,
                 modifier = Modifier.padding(top = 16.dp)
             )
 
 
-            }
+        }
 
         }
     }

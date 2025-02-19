@@ -1,5 +1,6 @@
 package com.example.composeproject
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,20 +31,22 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.navigation.NavHostController
 
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-           // val navController = rememberNavController()
-            AppNavigation()
+            val navController = rememberNavController()
+             AppNavigation(navController)
         }
     }
 }
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(navController: NavHostController) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "G8WayScreen") {
         composable("G8WayScreen") { G8WayScreen(navController) }
@@ -78,19 +81,19 @@ fun G8WayScreen(navController: NavController) {
             LottieAnimation(
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
-                modifier = Modifier.size(150.dp)
+                modifier = Modifier.size(210.dp, 100.dp)
             )
 
             Image(
-                painter = painterResource(id = R.drawable.ic_g8way),
+                painter = painterResource(id = R.drawable.ic_g8_way_welcome),
                 contentDescription = "Image from resources",
                 modifier = Modifier.size(147.dp,39.dp),
                 contentScale = ContentScale.Crop
             )
             Text(
                 text = "Registrieren und mühelos navigieren",
-                color = Color.White,
-                fontSize = 21.sp,
+                color = colorResource(id = R.color.text_field),
+                fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 fontFamily = robotoFontFamily,
                 modifier = Modifier.padding(top = 16.dp)
@@ -98,7 +101,7 @@ fun G8WayScreen(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 24.dp)
+                    .padding(top = 16.dp)
                     .background(Color.DarkGray, shape = RoundedCornerShape(12.dp))
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
@@ -107,8 +110,8 @@ fun G8WayScreen(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text("Nächster Flughafen:", color = Color.Gray, fontSize = 14.sp)
-                    Text("Flughafen München (334 km)", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text("Nächster Flughafen:", color = colorResource(id = R.color.btn_text_field), fontSize = 16.sp)
+                    Text("Flughafen München (334 km)", color = colorResource(id = R.color.btn_text_field), fontSize = 16.sp)
                 }
             }
 
@@ -119,12 +122,12 @@ fun G8WayScreen(navController: NavController) {
                     navController.navigate("loginScreen") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 14.dp)
+                    .padding(top = 18.dp)
                     .height(64.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Start", color = Color.Black, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text("Start", color = Color.Black, fontSize = 18.sp)
             }
         }
     }
