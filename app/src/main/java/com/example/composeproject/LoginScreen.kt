@@ -1,5 +1,6 @@
 package com.example.composeproject
 
+import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
@@ -8,8 +9,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,6 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextDecoration
@@ -37,8 +38,12 @@ import java.util.regex.Pattern
 fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf(TextFieldValue("")) }
     var isEmailValid by remember { mutableStateOf(true) }
-    var isFocused by remember { mutableStateOf(false) } // Track focus state
+    var isFocused by remember { mutableStateOf(false) }
 
+
+    val robotoFontFamily = FontFamily(
+        Font(R.font.roboto_light)
+    )
 
     val scrollState = rememberScrollState()
     Box(
@@ -68,6 +73,7 @@ fun LoginScreen(navController: NavController) {
                 text = "Login",
                 color = colorResource(id = R.color.btn_text_field),
                 fontSize = 24.sp,
+                fontFamily = robotoFontFamily,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 40.dp)
             )
@@ -81,10 +87,15 @@ fun LoginScreen(navController: NavController) {
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
+                fun isValidEmail(email: String): Boolean {
+                    return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                }
+
                 OutlinedTextField(
                     value = email,
                     onValueChange = {
                         email = it
+                        isEmailValid = true
                     },
                     leadingIcon = {
                         Icon(
@@ -101,12 +112,13 @@ fun LoginScreen(navController: NavController) {
                         },
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = colorResource(id = R.color.blue),
+                        focusedBorderColor = colorResource(id = R.color.blue), // Blue when focused
                         unfocusedBorderColor = when {
                             isFocused -> colorResource(id = R.color.blue)
                             isEmailValid -> Color.Gray
                             else -> Color.Red
-                        }
+                        },
+                        cursorColor = colorResource(id = R.color.blue)
                     ),
                     isError = !isEmailValid,
                     textStyle = TextStyle(color = Color.White)
@@ -116,8 +128,8 @@ fun LoginScreen(navController: NavController) {
                     Text(
                         text = "Diese E-Mail ist nicht registriert.",
                         color = Color.Red,
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(top = 4.dp)
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(start = 16.dp, top = 4.dp)
                     )
                 }
 
@@ -133,15 +145,46 @@ fun LoginScreen(navController: NavController) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF008B8B)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (email.text.isNotEmpty()) Color(0xFF00FFFF) else colorResource(id = R.color.blue)
+                    ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
-                    Text("Login mit Magiclink", color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        "Login mit Magiclink",
+                        color = Color.Black,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    )
                 }
+
+
+
+//                Button(
+//                    onClick = {
+//                        isEmailValid = isValidEmail(email.text)
+//                        if (isEmailValid) {
+//                            navController.navigate("EmailVerificationScreen")
+//                        }
+//                    },
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .height(56.dp),
+//                    colors = ButtonDefaults.buttonColors(
+//                        containerColor = if (isEmailEntered) Color(0xFF00FFFF) else Color(0xFF008B8B)
+//                    ),
+//                    shape = RoundedCornerShape(12.dp)
+//                ) {
+//                    Text(
+//                        "Login mit Magiclink",
+//                        color = Color.Black,
+//                        fontSize = 16.sp,
+//                        fontFamily = robotoFontFamily,
+//                        fontWeight = FontWeight.Medium
+//                    )
+//                }
+//
             }
-
-
-
 
             Text(
                 buildAnnotatedString {

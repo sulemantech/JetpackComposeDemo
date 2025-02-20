@@ -9,8 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background">#1E1E1E</color>
     <color name="btnColor">#2E2E2E</color>
+    <color name="textColor">#999999</color>
     <color name="blue">#10E0D7</color>
     <color name="text_field">#E0E0E0</color>
     <color name="btn_text_field">#F0F0F0</color>
     <color name="email_text_field">#D7D7D7</color>
+    <color name="image_background">#191818</color>
 </resources>

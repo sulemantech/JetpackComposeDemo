@@ -36,7 +36,7 @@ fun UploadTicketScreen(navController: NavController) {
     var selectedFileUri by remember { mutableStateOf<Uri?>(null) }
     var selectedImageBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
     var selectedFileName by remember { mutableStateOf<String?>(null) }
-    // Camera launcher
+
     val cameraLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             if (bitmap != null) {
@@ -46,7 +46,7 @@ fun UploadTicketScreen(navController: NavController) {
             }
         }
 
-    // Gallery launcher
+
     val galleryLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
@@ -68,14 +68,14 @@ fun UploadTicketScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.background))
+            .background(color = colorResource(id = R.color.image_background))
     ) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(790.dp)
                 .align(Alignment.BottomCenter)
-                .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                .clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp))
                 .background(Color.DarkGray)
         ) {
             Column(
@@ -134,7 +134,7 @@ fun UploadTicketScreen(navController: NavController) {
                         .fillMaxWidth()
                         .height(200.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(Color.Gray),
+                        .background(Color.DarkGray),
                     contentAlignment = Alignment.Center
                 ) {
                     when {
@@ -207,26 +207,26 @@ fun UploadTicketScreen(navController: NavController) {
 
 @Composable
 fun UploadOptionButton(text: String, iconRes: Int, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2C2C2C)),
-        shape = RoundedCornerShape(12.dp),
+    Row(
         modifier = Modifier
+            .background(color = colorResource(id = R.color.image_background), shape = RoundedCornerShape(12.dp))
+            .clickable { onClick() }
             .width(115.dp)
             .height(40.dp)
+            .padding(horizontal = 12.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = iconRes),
-                contentDescription = text,
-                tint = Color.White,
-                modifier = Modifier.size(18.dp)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = text, color = Color.White)
-        }
+        Image(
+            painter = painterResource(id = iconRes),
+            contentDescription = text,
+            modifier = Modifier.size(20.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = text, color = Color.White, fontSize = 14.sp)
     }
 }
+
+
 
 fun loadBitmapFromUri(context: Context, uri: Uri): Bitmap? {
     return try {
@@ -239,7 +239,7 @@ fun loadBitmapFromUri(context: Context, uri: Uri): Bitmap? {
     }
 }
 
-// Get File Name from URI
+
 fun getFileName(context: Context, uri: Uri): String {
     var name = "Unknown File"
     context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->

@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -21,6 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +34,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -36,6 +44,7 @@ fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
     val webView = remember { WebView(context) }
     val view = LocalView.current
+
 
     SideEffect {
         val window = (view.context as? android.app.Activity)?.window
@@ -70,9 +79,9 @@ fun HomeScreen(navController: NavController) {
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CategoryButton("Geschäfte")
-            CategoryButton("Gates")
-            CategoryButton("Lounge")
+            CategoryButton("Geschäfte", R.drawable.icon_shop)
+            CategoryButton("Gates", R.drawable.icon_gate)
+            CategoryButton("Lounge", R.drawable.ic_lounge)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -113,6 +122,12 @@ fun HomeScreen(navController: NavController) {
 
 @Composable
 fun NoTicketsAvailable(navController: NavController) {
+    val customFont = try {
+        FontFamily(Font(R.font.roboto_light, FontWeight.Light))
+    } catch (e: Exception) {
+        FontFamily.Default
+    }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -136,54 +151,68 @@ fun NoTicketsAvailable(navController: NavController) {
                 text = "Keine Tickets verfügbar",
                 color = Color.White,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Normal
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = "Tippe auf das Kreuz oben, um ein Ticket zu importieren",
-                color = Color.Gray,
-                fontSize = 12.sp
+                color = colorResource(id = R.color.textColor),
+                fontSize = 14.sp,
+                fontFamily = customFont,
+                fontWeight = FontWeight.Normal,
             )
         }
     }
 }
 
+
 @Composable
-fun CategoryButton(text: String) {
-    Text(
-        text = text,
-        color = Color.White,
-        fontSize = 14.sp,
+fun CategoryButton(text: String, iconRes: Int) {
+    Row(
         modifier = Modifier
             .background(Color.Gray, shape = RoundedCornerShape(8.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { }
-    )
+            .clickable { },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(id = iconRes),
+            contentDescription = text,
+            modifier = Modifier
+                .size(20.dp)
+                .padding(end = 8.dp) // Space between icon and text
+        )
+        Text(
+            text = text,
+            color = Color.White,
+            fontSize = 14.sp
+        )
+    }
 }
 
-//@Composable
-//fun BottomNavigationBar() {
-//    NavigationBar(containerColor = Color.DarkGray) {
-//        NavigationBarItem(
-//            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-//            label = { Text("Home", color = Color.White) },
-//            selected = true,
-//            onClick = {}
-//        )
-//        NavigationBarItem(
-//            icon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
-//            label = { Text("Search", color = Color.White) },
-//            selected = false,
-//            onClick = {}
-//        )
-//        NavigationBarItem(
-//            icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
-//            label = { Text("Settings", color = Color.White) },
-//            selected = false,
-//            onClick = {}
-//        )
-//    }
-//}
+@Composable
+fun BottomNavigationBar() {
+    NavigationBar(containerColor = Color.DarkGray) {
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
+            label = { Text("Home", color = Color.White) },
+            selected = true,
+            onClick = {}
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
+            label = { Text("Search", color = Color.White) },
+            selected = false,
+            onClick = {}
+        )
+        NavigationBarItem(
+            icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
+            label = { Text("Settings", color = Color.White) },
+            selected = false,
+            onClick = {}
+        )
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
