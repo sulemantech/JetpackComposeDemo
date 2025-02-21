@@ -68,7 +68,7 @@ fun G8WayScreen(navController: NavController) {
         Font(R.font.roboto_light)
     )
     val robotoFontFamily1 = FontFamily(
-        Font(R.font.roboto_regular, weight = FontWeight.Normal)
+        Font(R.font.roboto_regular)
     )
     val robotoFontFamily2 = FontFamily(
         Font(R.font.roboto_regular, weight = FontWeight.SemiBold)
@@ -103,9 +103,11 @@ fun G8WayScreen(navController: NavController) {
                 color = colorResource(id = R.color.text_field),
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
-                fontFamily = robotoFontFamily,
+                fontFamily = robotoFontFamily1,
+                fontWeight = FontWeight.W400,
                 modifier = Modifier.padding(top = 16.dp)
             )
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,13 +120,11 @@ fun G8WayScreen(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    Text("Nächster Flughafen:", color = colorResource(id = R.color.btn_text_field), fontSize = 16.sp,  fontFamily = robotoFontFamily)
-                    Text("Flughafen München (334 km)", color = colorResource(id = R.color.btn_text_field), fontSize = 16.sp,  fontFamily = robotoFontFamily1)
+                    Text("Nächster Flughafen:", color = colorResource(id = R.color.btn_text_field), fontSize = 16.sp,  fontFamily = robotoFontFamily, fontWeight =FontWeight.W300)
+                    Text("Flughafen München (334 km)", color = colorResource(id = R.color.btn_text_field), fontSize = 16.sp,  fontFamily = robotoFontFamily1, fontWeight = FontWeight.W400)
                 }
             }
-
-
-
+            
             Button(
                 onClick = {
                     navController.navigate("loginScreen") },
@@ -135,7 +135,7 @@ fun G8WayScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue)),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Start", color = Color.Black, fontSize = 18.sp,  fontFamily = robotoFontFamily2)
+                Text("Start", color = Color.Black, fontSize = 18.sp,  fontFamily = robotoFontFamily1, fontWeight = FontWeight.W500)
             }
         }
     }

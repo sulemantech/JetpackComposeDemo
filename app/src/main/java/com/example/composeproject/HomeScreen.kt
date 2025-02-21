@@ -36,6 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -108,6 +109,7 @@ fun HomeScreen(navController: NavController) {
                 modifier = Modifier.fillMaxSize()
             )
         }
+        BottomNavigationBar()
 
         BackHandler {
             if (webView.canGoBack()) {
@@ -118,7 +120,6 @@ fun HomeScreen(navController: NavController) {
         }
     }
 }
-
 
 @Composable
 fun NoTicketsAvailable(navController: NavController) {
@@ -154,13 +155,21 @@ fun NoTicketsAvailable(navController: NavController) {
                 fontWeight = FontWeight.Normal
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = "Tippe auf das Kreuz oben, um ein Ticket zu importieren",
-                color = colorResource(id = R.color.textColor),
-                fontSize = 14.sp,
-                fontFamily = customFont,
-                fontWeight = FontWeight.Normal,
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally // Centers the Text horizontally
+            ) {
+                Text(
+                    text = "Tippe auf das Kreuz oben, um ein Ticket zu \nimportieren.",
+                    color = colorResource(id = R.color.textColor),
+                    fontSize = 14.sp,
+                    fontFamily = customFont,
+                    fontWeight = FontWeight.Normal,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
         }
     }
 }

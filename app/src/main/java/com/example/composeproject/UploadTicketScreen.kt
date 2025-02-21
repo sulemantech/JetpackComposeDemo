@@ -26,6 +26,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -36,6 +37,8 @@ fun UploadTicketScreen(navController: NavController) {
     var selectedFileUri by remember { mutableStateOf<Uri?>(null) }
     var selectedImageBitmap by remember { mutableStateOf<android.graphics.Bitmap?>(null) }
     var selectedFileName by remember { mutableStateOf<String?>(null) }
+
+    val isUploadEnabled = selectedImageBitmap != null || selectedFileUri != null
 
     val cameraLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
@@ -108,26 +111,27 @@ fun UploadTicketScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = "Wähle ein Foto deines Tickets, mache ein neues oder lade ein PDF des Tickets hoch.",
-                    color = Color.White,
-                    fontSize = 16.sp
-                )
+                if (selectedImageBitmap == null && selectedFileUri == null) {
+                    Text(
+                        text = "Wähle ein Foto deines Tickets, mache ein neues oder lade ein PDF des Tickets hoch.",
+                        color = Color.White,
+                        fontSize = 16.sp
+                    )
+                }
 
-                Spacer(modifier = Modifier.height(58.dp))
-
+                Spacer(modifier = Modifier.height(28.dp))
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Divider(
-                        color = Color(0xFF00796B),
-                        thickness = 1.dp,
-                        modifier = Modifier.width(140.dp)
-                    )
+                    if (selectedImageBitmap == null && selectedFileUri == null) {
+                        Divider(
+                            color = Color(0xFF00796B),
+                            thickness = 1.dp,
+                            modifier = Modifier.width(140.dp)
+                        )
+                    }
                 }
-
-                Spacer(modifier = Modifier.height(34.dp))
 
                 Box(
                     modifier = Modifier
@@ -179,25 +183,28 @@ fun UploadTicketScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    UploadOptionButton("Kamera", R.drawable.ic_camera) { cameraLauncher.launch() }
-                    UploadOptionButton("Bild", R.drawable.ic_gallery) { galleryLauncher.launch("image/*") }
-                    UploadOptionButton("Dokument", R.drawable.ic_document) { documentLauncher.launch(
-                        arrayOf("*/*").toString()
-                    ) }
-                }
+                    UploadOptionButton("Kamera", R.drawable.ic_camera, 115.dp) { cameraLauncher.launch() }
+                    UploadOptionButton("Bild", R.drawable.ic_gallery, 95.dp) { galleryLauncher.launch("image/*") } // Reduced width
+                    UploadOptionButton("Dokument", R.drawable.ic_document, 130.dp) { documentLauncher.launch(arrayOf("*/*").toString()) }
+
+            }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00796B)),
+                    onClick = { if (isUploadEnabled) navController.navigate("search_screen") },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = if (isUploadEnabled)  colorResource(id = R.color.blue) else Color(0xFF00796B) // Dark Blue when enabled, same when disabled
+                    ),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp)
+                        .height(50.dp),
                 ) {
                     Text(text = "Hochladen", color = Color.Black, fontSize = 16.sp)
                 }
+
+
 
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -206,12 +213,12 @@ fun UploadTicketScreen(navController: NavController) {
 }
 
 @Composable
-fun UploadOptionButton(text: String, iconRes: Int, onClick: () -> Unit) {
+fun UploadOptionButton(text: String, iconRes: Int, width: Dp, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .background(color = colorResource(id = R.color.image_background), shape = RoundedCornerShape(12.dp))
             .clickable { onClick() }
-            .width(115.dp)
+            .width(width) // Use dynamic width
             .height(40.dp)
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -225,7 +232,6 @@ fun UploadOptionButton(text: String, iconRes: Int, onClick: () -> Unit) {
         Text(text = text, color = Color.White, fontSize = 14.sp)
     }
 }
-
 
 
 fun loadBitmapFromUri(context: Context, uri: Uri): Bitmap? {
@@ -255,3 +261,4 @@ fun getFileName(context: Context, uri: Uri): String {
 fun PreviewUploadTicketBottomSheet() {
     UploadTicketScreen(navController = NavController(LocalContext.current))
 }
+

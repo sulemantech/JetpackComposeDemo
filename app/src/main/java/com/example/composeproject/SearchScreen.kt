@@ -41,24 +41,24 @@ fun SearchScreen(navController: NavController) {
         ) {
             Box(
                 modifier = Modifier
-                    .background(Color.DarkGray, RoundedCornerShape(8.dp))
-                    .padding(horizontal = 12.dp, vertical = 4.dp)
+                    .size(48.dp)
+                    .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
+                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                contentAlignment = Alignment.Center
+
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_left),
                     contentDescription = "Back",
                     tint = Color.White,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(10.dp)
                 )
             }
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Text(
-                "Suchen",
-                color = Color.White,
-                fontSize = 18.sp
-            )
+            Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
+
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -179,7 +179,7 @@ fun PreviewSearchScreen() {
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Text("Suchen", color = Color.White, fontSize = 18.sp)
+            Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -232,7 +232,7 @@ fun PreviewSearchScreen() {
                         .fillMaxWidth()
                         .height(39.dp),
                     shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue))
                 ) {
                     Text("Wegbeschreibung", color = Color.Black, fontSize = 16.sp)
                 }

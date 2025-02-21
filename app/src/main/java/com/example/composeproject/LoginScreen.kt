@@ -74,6 +74,7 @@ fun LoginScreen(navController: NavController) {
                 color = colorResource(id = R.color.btn_text_field),
                 fontSize = 24.sp,
                 fontFamily = robotoFontFamily,
+                fontWeight = FontWeight.W300,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 40.dp)
             )
@@ -84,6 +85,8 @@ fun LoginScreen(navController: NavController) {
                     "E-Mail",
                     color = Color.White,
                     fontSize = 14.sp,
+//                    fontFamily = robotoFontFamily,
+//                    fontWeight = FontWeight.W400,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
@@ -129,7 +132,7 @@ fun LoginScreen(navController: NavController) {
                         text = "Diese E-Mail ist nicht registriert.",
                         color = Color.Red,
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+                        modifier = Modifier.padding(start = 6.dp, top = 4.dp)
                     )
                 }
 
