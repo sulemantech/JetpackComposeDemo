@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -59,7 +60,6 @@ fun UploadTicketScreen(navController: NavController) {
             }
         }
 
-    // Document picker
     val documentLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
@@ -91,7 +91,7 @@ fun UploadTicketScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Text(
-                    text = "Abbrechen",
+                    text = stringResource(id = R.string.Abbrechen),
                     color = Color(0xFF10E0D7),
                     fontSize = 16.sp,
                     modifier = Modifier
@@ -102,7 +102,7 @@ fun UploadTicketScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(27.dp))
 
                 Text(
-                    text = "Ticketupload",
+                    text = stringResource(id = R.string.Ticketupload),
                     color = Color.White,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
@@ -113,7 +113,7 @@ fun UploadTicketScreen(navController: NavController) {
 
                 if (selectedImageBitmap == null && selectedFileUri == null) {
                     Text(
-                        text = "Wähle ein Foto deines Tickets, mache ein neues oder lade ein PDF des Tickets hoch.",
+                        text = stringResource(id = R.string.wahle_ein_foto),
                         color = Color.White,
                         fontSize = 16.sp
                     )
@@ -145,7 +145,7 @@ fun UploadTicketScreen(navController: NavController) {
                         selectedImageBitmap != null -> {
                             Image(
                                 bitmap = selectedImageBitmap!!.asImageBitmap(),
-                                contentDescription = "Selected Image",
+                                contentDescription = stringResource(id = R.string.select_image),
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier.fillMaxSize()
                             )
@@ -154,11 +154,11 @@ fun UploadTicketScreen(navController: NavController) {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_document),
-                                    contentDescription = "Document Icon",
+                                    contentDescription = stringResource(id = R.string.select_Document),
                                     tint = Color.White,
                                     modifier = Modifier.size(48.dp)
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
+
                                 Text(
                                     text = "Selected File: $selectedFileName",
                                     color = Color.White,
@@ -169,7 +169,7 @@ fun UploadTicketScreen(navController: NavController) {
                         else -> {
                             Image(
                                 painter = painterResource(id = R.drawable.upload_ticket),
-                                contentDescription = "Upload Ticket Icon",
+                                contentDescription = stringResource(id = R.string.Upload_Ticket_Icon),
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier.size(147.dp, 39.dp)
                             )
@@ -183,9 +183,9 @@ fun UploadTicketScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    UploadOptionButton("Kamera", R.drawable.ic_camera, 115.dp) { cameraLauncher.launch() }
-                    UploadOptionButton("Bild", R.drawable.ic_gallery, 95.dp) { galleryLauncher.launch("image/*") } // Reduced width
-                    UploadOptionButton("Dokument", R.drawable.ic_document, 130.dp) { documentLauncher.launch(arrayOf("*/*").toString()) }
+                    UploadOptionButton( text = stringResource(id = R.string.kamera), R.drawable.ic_camera, 115.dp) { cameraLauncher.launch() }
+                    UploadOptionButton( text = stringResource(id = R.string.bild), R.drawable.ic_gallery, 95.dp) { galleryLauncher.launch("image/*") } // Reduced width
+                    UploadOptionButton(text = stringResource(id = R.string.Dokument), R.drawable.ic_document, 130.dp) { documentLauncher.launch(arrayOf("*/*").toString()) }
 
             }
 
@@ -218,7 +218,7 @@ fun UploadOptionButton(text: String, iconRes: Int, width: Dp, onClick: () -> Uni
         modifier = Modifier
             .background(color = colorResource(id = R.color.image_background), shape = RoundedCornerShape(12.dp))
             .clickable { onClick() }
-            .width(width) // Use dynamic width
+            .width(width)
             .height(40.dp)
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically

@@ -64,6 +64,7 @@ fun HomeScreen(navController: NavController) {
                 .padding(vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Meine Flüge",
                 fontSize = 18.sp,
@@ -133,7 +134,7 @@ fun NoTicketsAvailable(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .background(Color.DarkGray, shape = RoundedCornerShape(12.dp))
+            .background(colorResource(id = R.color.btnColor), shape = RoundedCornerShape(12.dp))
             .padding(16.dp)
             .clickable {
                 navController.navigate("upload_ticket_screen")
@@ -157,7 +158,7 @@ fun NoTicketsAvailable(navController: NavController) {
             Spacer(modifier = Modifier.height(4.dp))
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally // Centers the Text horizontally
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
                     text = "Tippe auf das Kreuz oben, um ein Ticket zu \nimportieren.",
@@ -179,7 +180,7 @@ fun NoTicketsAvailable(navController: NavController) {
 fun CategoryButton(text: String, iconRes: Int) {
     Row(
         modifier = Modifier
-            .background(Color.Gray, shape = RoundedCornerShape(8.dp))
+            .background(colorResource(id = R.color.btnColor), shape = RoundedCornerShape(8.dp))
             .padding(horizontal = 16.dp, vertical = 8.dp)
             .clickable { },
         verticalAlignment = Alignment.CenterVertically
@@ -189,7 +190,7 @@ fun CategoryButton(text: String, iconRes: Int) {
             contentDescription = text,
             modifier = Modifier
                 .size(20.dp)
-                .padding(end = 8.dp) // Space between icon and text
+                .padding(end = 8.dp)
         )
         Text(
             text = text,

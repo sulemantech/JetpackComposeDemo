@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,7 +41,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-             AppNavigation(navController)
+            AppNavigation(navController)
         }
     }
 }
@@ -89,45 +90,62 @@ fun G8WayScreen(navController: NavController) {
             LottieAnimation(
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
-                modifier = Modifier.size(210.dp, 100.dp)
+                modifier = Modifier.size(210.dp, 100.dp),
             )
-
             Image(
                 painter = painterResource(id = R.drawable.ic_g8_way_welcome),
-                contentDescription = "Image from resources",
-                modifier = Modifier.size(147.dp,39.dp),
-                contentScale = ContentScale.Crop
+                contentDescription = stringResource(id = R.string.image_from_resources),
+                modifier = Modifier.size(147.dp, 39.dp),
+                contentScale = ContentScale.Crop,
             )
+
             Text(
-                text = "Registrieren und mühelos navigieren",
+                text = stringResource(id = R.string.register_and_navigate),
                 color = colorResource(id = R.color.text_field),
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center,
                 fontFamily = robotoFontFamily1,
                 fontWeight = FontWeight.W400,
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier.padding(top = 15.dp)
             )
+
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
-                    .background(Color.DarkGray, shape = RoundedCornerShape(12.dp))
+                    .background(Color.DarkGray, shape = RoundedCornerShape(8.dp))
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
+
                 ) {
-                    Text("Nächster Flughafen:", color = colorResource(id = R.color.btn_text_field), fontSize = 16.sp,  fontFamily = robotoFontFamily, fontWeight =FontWeight.W300)
-                    Text("Flughafen München (334 km)", color = colorResource(id = R.color.btn_text_field), fontSize = 16.sp,  fontFamily = robotoFontFamily1, fontWeight = FontWeight.W400)
+                    Text(
+                        text = stringResource(id = R.string.nearest_airport),
+                        color = colorResource(id = R.color.btn_text_field),
+                        fontSize = 16.sp,
+                        fontFamily = robotoFontFamily,
+                        fontWeight = FontWeight.W300
+
+                    )
+                    Text(
+                        text = stringResource(id = R.string.munich_airport),
+                        color = colorResource(id = R.color.btn_text_field),
+                        fontSize = 16.sp,
+                        fontFamily = robotoFontFamily1,
+                        fontWeight = FontWeight.W400,
+
+                    )
                 }
             }
-            
+
             Button(
                 onClick = {
-                    navController.navigate("loginScreen") },
+                    navController.navigate("loginScreen")
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 18.dp)
@@ -135,11 +153,18 @@ fun G8WayScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue)),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text("Start", color = Color.Black, fontSize = 18.sp,  fontFamily = robotoFontFamily1, fontWeight = FontWeight.W500)
+                Text(
+                    "Start",
+                    color = Color.Black,
+                    fontSize = 18.sp,
+                    fontFamily = robotoFontFamily1,
+                    fontWeight = FontWeight.W500
+                )
             }
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewG8WayScreen() {

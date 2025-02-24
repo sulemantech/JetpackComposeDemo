@@ -3,6 +3,7 @@ package com.example.composeproject
 import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -24,6 +25,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -81,14 +83,14 @@ fun RegisterScreen(navController: NavController) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_g8_way_welcome),
-                contentDescription = "Image from resources",
+                contentDescription = stringResource(id = R.string.image_from_resources),
                 modifier = Modifier.size(147.dp, 39.dp),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(1.dp))
 
             Text(
-                text = "Registrieren",
+                text = stringResource(id = R.string.register),
                 color = Color.White,
                 fontSize = 24.sp,
                 fontFamily = robotoFontFamily,
@@ -99,7 +101,7 @@ fun RegisterScreen(navController: NavController) {
 
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "Name",
+                    text = stringResource(id = R.string.name),
                     color = Color.White,
                     fontSize = 14.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
@@ -111,11 +113,17 @@ fun RegisterScreen(navController: NavController) {
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_profile),
-                            contentDescription = "Profile Icon",
+                            contentDescription = stringResource(id = R.string.Profile_Icon),
+
                             tint = Color.White
                         )
                     },
-                    placeholder = { Text("Name", color = Color.Gray) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.name),
+                            color = Color.Gray
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .focusRequester(nameFocusRequester)
@@ -146,12 +154,12 @@ fun RegisterScreen(navController: NavController) {
 
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
-                    "E-Mail",
+                    text = stringResource(id = R.string.e_mail),
                     color = Color.White,
                     fontSize = 14.sp,
 //                    fontFamily = robotoFontFamily,
 //                    fontWeight = FontWeight.W400,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp, top = 10.dp)
                 )
 
                 fun isValidEmail(email: String): Boolean {
@@ -167,11 +175,16 @@ fun RegisterScreen(navController: NavController) {
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_message),
-                            contentDescription = "Email Icon",
+                            contentDescription = stringResource(id = R.string.e_mail_Icon),
                             tint = Color.White
                         )
                     },
-                    placeholder = { Text("E-Mail", color = Color.Gray) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.e_mail),
+                            color = Color.Gray
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
@@ -193,7 +206,7 @@ fun RegisterScreen(navController: NavController) {
 
                 if (!isEmailValid) {
                     Text(
-                        text = "Diese E-Mail ist nicht registriert.",
+                        text = stringResource(id = R.string.diese_e_mail_ist_bereits_registriert),
                         color = Color.Red,
                         fontSize = 14.sp,
                         modifier = Modifier.padding(start = 6.dp, top = 4.dp)
@@ -204,24 +217,30 @@ fun RegisterScreen(navController: NavController) {
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 CustomCheckbox(
                     checked = isTermsAccepted,
                     onCheckedChange = { isTermsAccepted = it },
-                    modifier = Modifier.padding(start = 16.dp)
+                    modifier = Modifier.padding(start = 16.dp, top = 2.dp)
                 )
 
                 Text(
                     buildAnnotatedString {
-                        append("Ich akzeptiere die ")
+                        append(stringResource(id = R.string.Ich_akzeptiere_die))
+                        append(" ")
                         withStyle(
                             style = SpanStyle(
                                 color = colorResource(id = R.color.blue),
                                 textDecoration = TextDecoration.Underline
                             )
                         ) {
-                            append("Allgemeinen \nGeschäftsbedingungen")
+                            append(
+                                stringResource(
+                                    id = R.string.Allgemeinen,
+                                    ""
+                                )
+                            )
                         }
                     },
                     fontSize = 14.sp,
@@ -230,7 +249,7 @@ fun RegisterScreen(navController: NavController) {
                     softWrap = true,
                     modifier = Modifier.padding(start = 7.5.dp)
                 )
-        }
+            }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -244,14 +263,18 @@ fun RegisterScreen(navController: NavController) {
                 )
                 Text(
                     buildAnnotatedString {
-                        append("Ich akzeptiere die ")
+                        append(stringResource(id = R.string.Ich_akzeptiere_die))
+                        append(" ")
+
                         withStyle(
                             style = SpanStyle(
                                 color = colorResource(id = R.color.blue),
                                 textDecoration = TextDecoration.Underline
                             )
                         ) {
-                            append("Datenschutzerklärung")
+                            append(
+                                stringResource(id = R.string.Datenschutzerklärung)
+                            )
                         }
                     },
                     fontSize = 14.sp,
@@ -261,7 +284,6 @@ fun RegisterScreen(navController: NavController) {
                     modifier = Modifier.padding(start = 7.5.dp)
                 )
             }
-
 
             Button(
                 onClick = {
@@ -276,30 +298,31 @@ fun RegisterScreen(navController: NavController) {
                     .fillMaxWidth()
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (email.text.isNotEmpty()) Color(0xFF00FFFF) else colorResource(
-                        id = R.color.blue
+                    containerColor = if (email.text.isNotEmpty()) Color(0xFF00FFFF) else colorResource(id = R.color.teal_700
                     )
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
-                    "Registrieren",
+                    text = stringResource(id = R.string.register),
                     color = Color.Black,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
             }
-
             Text(
                 buildAnnotatedString {
-                    append("Bereits registriert? ")
+                    append(stringResource(id = R.string.bereits_registriert))
+                    append(" ")
                     withStyle(
                         style = SpanStyle(
                             color = colorResource(id = R.color.blue),
                             textDecoration = TextDecoration.Underline
                         )
                     ) {
-                        append("Einloggen")
+                        append(
+                            stringResource(id = R.string.Einloggen)
+                        )
                     }
                 },
                 fontSize = 14.sp,
@@ -312,26 +335,34 @@ fun RegisterScreen(navController: NavController) {
         }
     }
 }
+
 @Composable
 fun CustomCheckbox(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Checkbox(
-        checked = checked,
-        onCheckedChange = onCheckedChange,
-        colors = CheckboxDefaults.colors(
-            checkedColor = Color.Cyan, 
-            uncheckedColor = Color.Gray,
-            checkmarkColor = Color.Black 
-        ),
-        modifier = Modifier
-            .clip(RoundedCornerShape(15.dp))
-            .size(26.dp)
-    )
+    Box(
+        modifier = modifier
+            .size(24.dp)
+            .clip(RoundedCornerShape(6.dp))
+            .border(2.dp, if (checked) colorResource(id = R.color.blue) else Color.Gray, RoundedCornerShape(6.dp)) // Border color changes
+            .background(if (checked) Color.Black else Color.Transparent), // Black when checked, transparent when unchecked
+        contentAlignment = Alignment.Center
+    ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = CheckboxDefaults.colors(
+                checkedColor = Color.Transparent,
+                uncheckedColor = Color.Transparent,
+                checkmarkColor = Color.White
+            ),
+            modifier = Modifier
+                .size(24.dp)
+        )
+    }
 }
-
 
 @Preview(showBackground = true)
 @Composable

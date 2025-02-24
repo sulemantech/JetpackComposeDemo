@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,7 +50,7 @@ fun SearchScreen(navController: NavController) {
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.icon_left),
-                    contentDescription = "Back",
+                    contentDescription = stringResource(id = R.string.back_icon_desc),
                     tint = Color.White,
                     modifier = Modifier.size(10.dp)
                 )
@@ -57,7 +58,7 @@ fun SearchScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
+            Text( text = stringResource(id = R.string.suchen), color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
 
         }
 
@@ -195,9 +196,7 @@ fun PreviewSearchScreen() {
                 .padding(12.dp),
             textAlign = TextAlign.Center
         )
-
-
-        Spacer(modifier = Modifier.height(8.dp))
+          Spacer(modifier = Modifier.height(8.dp))
 
         Box(
             modifier = Modifier
