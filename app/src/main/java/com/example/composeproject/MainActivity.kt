@@ -57,6 +57,7 @@ fun AppNavigation(navController: NavHostController) {
         composable("homeScreen") { HomeScreen(navController) }
         composable("upload_ticket_screen") { UploadTicketScreen(navController) }
         composable("search_screen") { SearchScreen(navController) }
+        composable("search_route_screen") { SearchRouteScreen(navController) }
     }
 }
 
@@ -128,8 +129,8 @@ fun G8WayScreen(navController: NavController) {
                         color = colorResource(id = R.color.btn_text_field),
                         fontSize = 16.sp,
                         fontFamily = robotoFontFamily,
-                        fontWeight = FontWeight.W300
-
+                        fontWeight = FontWeight.W300,
+                        lineHeight = 24.sp // Adjust this value as needed
                     )
                     Text(
                         text = stringResource(id = R.string.munich_airport),
@@ -137,8 +138,9 @@ fun G8WayScreen(navController: NavController) {
                         fontSize = 16.sp,
                         fontFamily = robotoFontFamily1,
                         fontWeight = FontWeight.W400,
-
+                        lineHeight = 24.sp // Match the lineHeight for consistency
                     )
+
                 }
             }
 

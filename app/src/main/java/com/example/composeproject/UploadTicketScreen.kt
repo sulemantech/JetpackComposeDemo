@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -79,7 +82,7 @@ fun UploadTicketScreen(navController: NavController) {
                 .height(790.dp)
                 .align(Alignment.BottomCenter)
                 .clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp))
-                .background(Color.DarkGray)
+                .background(colorResource(id =R.color.btnColor ))
         ) {
             Column(
                 modifier = Modifier
@@ -115,13 +118,15 @@ fun UploadTicketScreen(navController: NavController) {
                     Text(
                         text = stringResource(id = R.string.wahle_ein_foto),
                         color = Color.White,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp
                     )
                 }
 
-                Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(58.dp))
                 Box(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                    .padding(top = 30.dp),// Margin from text to Divider
                     contentAlignment = Alignment.Center
                 ) {
                     if (selectedImageBitmap == null && selectedFileUri == null) {
@@ -133,12 +138,14 @@ fun UploadTicketScreen(navController: NavController) {
                     }
                 }
 
+                Spacer(modifier = Modifier.height(20.dp)) // Margin from Divider to Image Box
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
+                        .height(90.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(Color.DarkGray),
+                        .background(colorResource(id =R.color.btnColor )),
                     contentAlignment = Alignment.Center
                 ) {
                     when {
@@ -214,25 +221,40 @@ fun UploadTicketScreen(navController: NavController) {
 
 @Composable
 fun UploadOptionButton(text: String, iconRes: Int, width: Dp, onClick: () -> Unit) {
-    Row(
+    Box(
         modifier = Modifier
-            .background(color = colorResource(id = R.color.image_background), shape = RoundedCornerShape(12.dp))
+            .shadow(
+                elevation = 19.dp,
+                shape = RoundedCornerShape(8.dp),
+                ambientColor = Color.Black,
+                spotColor = Color.Black
+            )
+            .clip(RoundedCornerShape(8.dp))
+            .background(colorResource(id =R.color.btnColor ))
             .clickable { onClick() }
             .width(width)
-            .height(40.dp)
-            .padding(horizontal = 12.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .height(45.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Image(
-            painter = painterResource(id = iconRes),
-            contentDescription = text,
-            modifier = Modifier.size(20.dp)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(text = text, color = Color.White, fontSize = 14.sp)
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = text,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = text,
+                color = Color.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal
+            )
+        }
     }
 }
-
 
 fun loadBitmapFromUri(context: Context, uri: Uri): Bitmap? {
     return try {

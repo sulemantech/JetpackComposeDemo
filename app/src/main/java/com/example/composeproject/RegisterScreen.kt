@@ -114,8 +114,8 @@ fun RegisterScreen(navController: NavController) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_profile),
                             contentDescription = stringResource(id = R.string.Profile_Icon),
-
-                            tint = Color.White
+                            tint = Color.White,
+                            modifier = Modifier.padding(start = 15.dp)
                         )
                     },
                     placeholder = {
@@ -176,7 +176,8 @@ fun RegisterScreen(navController: NavController) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_message),
                             contentDescription = stringResource(id = R.string.e_mail_Icon),
-                            tint = Color.White
+                            tint = Color.White,
+                            modifier = Modifier.padding(start = 14.dp)
                         )
                     },
                     placeholder = {
@@ -247,7 +248,8 @@ fun RegisterScreen(navController: NavController) {
                     color = Color.White,
                     maxLines = 2,
                     softWrap = true,
-                    modifier = Modifier.padding(start = 7.5.dp)
+                    lineHeight = 20.sp,
+                            modifier = Modifier.padding(start = 7.5.dp)
                 )
             }
             Row(
@@ -284,6 +286,8 @@ fun RegisterScreen(navController: NavController) {
                     modifier = Modifier.padding(start = 7.5.dp)
                 )
             }
+
+            Spacer(modifier = Modifier.height(0.1.dp))
 
             Button(
                 onClick = {
@@ -344,9 +348,9 @@ fun CustomCheckbox(
 ) {
     Box(
         modifier = modifier
-            .size(24.dp)
+            .size(22.dp)
             .clip(RoundedCornerShape(6.dp))
-            .border(2.dp, if (checked) colorResource(id = R.color.blue) else Color.Gray, RoundedCornerShape(6.dp)) // Border color changes
+            .border(1.dp, if (checked) colorResource(id = R.color.blue) else Color.Gray, RoundedCornerShape(6.dp)) // Border color changes
             .background(if (checked) Color.Black else Color.Transparent), // Black when checked, transparent when unchecked
         contentAlignment = Alignment.Center
     ) {
@@ -359,7 +363,7 @@ fun CustomCheckbox(
                 checkmarkColor = Color.White
             ),
             modifier = Modifier
-                .size(24.dp)
+                .size(22.dp)
         )
     }
 }

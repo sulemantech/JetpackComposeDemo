@@ -99,15 +99,18 @@ fun LoginScreen(navController: NavController) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_message),
                             contentDescription = stringResource(id = R.string.e_mail_icon),
-                            tint = Color.White
+                            tint = Color.White,
+                            modifier = Modifier.padding(start = 14.dp)
                         )
                     },
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.e_mail),
-                            color = Color.Gray
+                            color = Color.Gray,
+
                         )
                     },
+
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
@@ -162,8 +165,7 @@ fun LoginScreen(navController: NavController) {
                     )
                 }
             }
-
-            Spacer(modifier = Modifier.height(1.dp))
+            
 
             Text(
                 buildAnnotatedString {
@@ -181,7 +183,7 @@ fun LoginScreen(navController: NavController) {
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
-                    navController.navigate("registerScreen")
+                    navController.navigate("search_screen")
                 }
             )
         }

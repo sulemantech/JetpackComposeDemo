@@ -54,13 +54,15 @@ fun EmailVerificationScreen (navController: NavController){
 
             LottieAnimation(composition, progress, modifier = Modifier.size(150.dp))
 
+            Spacer(modifier = Modifier.height(30.dp))
+
             Image(
                 painter = painterResource(id = R.drawable.ic_g8way),
                 contentDescription = "Image from resources",
                 modifier = Modifier.size(147.dp,39.dp),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(0.dp))
 
             Text(
                 text = "Bitte überprüfe Deine \n" +
@@ -71,7 +73,7 @@ fun EmailVerificationScreen (navController: NavController){
                 textAlign = TextAlign.Center,
                 fontFamily = customFont,
                 fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier.padding(bottom = 36.dp)
             )
 
 
