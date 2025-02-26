@@ -6,6 +6,7 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -14,11 +15,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +29,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(navController: NavController) {
     var searchText by remember { mutableStateOf("") }
@@ -39,7 +39,7 @@ fun SearchScreen(navController: NavController) {
             .fillMaxSize()
             .background(Color.Black)
             .padding(16.dp),
-       // horizontalAlignment = Alignment.CenterHorizontally
+        // horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -59,8 +59,11 @@ fun SearchScreen(navController: NavController) {
                     painter = painterResource(id = R.drawable.icon_left),
                     contentDescription = "Back",
                     tint = Color.White,
-                    modifier = Modifier.size(10.dp)
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { navController.popBackStack() }
                 )
+
             }
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -96,49 +99,51 @@ fun SearchScreen(navController: NavController) {
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                if (!showAutoComplete) {
+//                if (!showAutoComplete) {
 
-                    TextField(
-                        value = searchText,
-                        onValueChange = { searchText = it },
-                        placeholder = {
-                            Text(
-                                "Standort suchen & navi...",
-                                color = Color.Gray,
-                                fontSize = 18.sp
-                            )
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.Black, RoundedCornerShape(8.dp)),
-                        textStyle = LocalTextStyle.current.copy(color = Color.White),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.Black,
-                            focusedContainerColor = Color.Black,
-                            cursorColor = Color.White,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
+                TextField(
+                    value = searchText,
+                    onValueChange = { searchText = it },
+                    placeholder = {
+                        Text(
+                            "Standort suchen & navi...",
+                            color = Color.Gray,
+                            fontSize = 18.sp
                         )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(Color.Black),
+                    textStyle = LocalTextStyle.current.copy(color = Color.White),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.Black,
+                        focusedContainerColor = Color.Black,
+                        cursorColor = Color.White,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent
                     )
+                )
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                    Button(
-                        onClick = { showAutoComplete = true }, // Hide fields on click
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(39.dp),
-                        shape = RoundedCornerShape(8.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)
-                    ) {
-                        Text("Wegbeschreibung", color = Color.Black, fontSize = 16.sp)
-                    }
-                } else {
-                    // Show AutoCompleteTextView fields after button click
-                    AutoCompleteTextView(label = "Grobraum-büro")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    AutoCompleteTextView(label = "Eingang West/Wartebereich")
+                Button(
+                    onClick = { navController.navigate("search_route_screen") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(39.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)
+                ) {
+                    Text("Wegbeschreibung", color = Color.Black, fontSize = 16.sp)
                 }
+//                } else {
+//
+//                    AutoCompleteTextView(label = "Grobraum-büro")
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                    AutoCompleteTextView(label = "Eingang West/Wartebereich")
+//                }
             }
         }
 
@@ -182,13 +187,13 @@ fun AutoCompleteTextView(label: String) {
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 trailingIcon = {
-                        IconButton(onClick = { text = "" }) {
-                            Icon(
-                                imageVector = Icons.Default.Close,
-                                contentDescription = "Clear text",
-                                tint = Color.White
-                            )
-                        }
+                    IconButton(onClick = { text = "" }) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Clear text",
+                            tint = Color.White
+                        )
+                    }
 
                 }
             )
@@ -218,9 +223,8 @@ fun FloorMapWebView(url: String) {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchScreen() {
-   SearchScreen(navController = rememberNavController())
+    SearchScreen(navController = rememberNavController())
 }

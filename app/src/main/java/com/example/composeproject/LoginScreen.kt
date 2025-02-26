@@ -51,6 +51,7 @@ fun LoginScreen(navController: NavController) {
             .fillMaxSize()
             .background(color = colorResource(id = R.color.background))
             .padding(16.dp)
+            .height(812.dp)
             .imePadding(),
         contentAlignment = Alignment.Center
     ) {
@@ -59,8 +60,9 @@ fun LoginScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(scrollState) // Enables scrolling
-                .padding(bottom = WindowInsets.ime.asPaddingValues().calculateBottomPadding()) // Pushes up when keyboard opens
+                .verticalScroll(scrollState)
+                .windowInsetsPadding(WindowInsets.ime)
+
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_g8_way_welcome),
@@ -108,7 +110,7 @@ fun LoginScreen(navController: NavController) {
                             text = stringResource(id = R.string.e_mail),
                             color = Color.Gray,
 
-                        )
+                            )
                     },
 
                     modifier = Modifier
@@ -152,21 +154,21 @@ fun LoginScreen(navController: NavController) {
                         .fillMaxWidth()
                         .height(60.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (email.text.isNotEmpty()) Color(0xFF00FFFF) else colorResource(id = R.color.teal_700
-                        )
+                        containerColor = if (!isEmailValid || email.text.isEmpty())
+                            colorResource(id = R.color.teal_700)
+                        else
+                            Color(0xFF00FFFF)
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.login_mit_magiclink),
+                        text = if (!isEmailValid) "Einloggen" else stringResource(id = R.string.login_mit_magiclink),
                         color = Color.Black,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
                     )
                 }
             }
-            
-
             Text(
                 buildAnnotatedString {
                     append(stringResource(id = R.string.no_account, ""))
@@ -183,7 +185,7 @@ fun LoginScreen(navController: NavController) {
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
-                    navController.navigate("search_screen")
+                    navController.navigate("registerScreen")
                 }
             )
         }
@@ -201,4 +203,5 @@ fun isValidEmail(email: String): Boolean {
 @Composable
 fun PreviewLoginScreen() {
     LoginScreen(navController = rememberNavController())
-}
+}//i want proper screen scroll
+

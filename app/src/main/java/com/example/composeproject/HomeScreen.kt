@@ -1,12 +1,14 @@
 package com.example.composeproject
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,24 +22,26 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import androidx.compose.foundation.Image
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
-
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -45,7 +49,6 @@ fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
     val webView = remember { WebView(context) }
     val view = LocalView.current
-
 
     SideEffect {
         val window = (view.context as? android.app.Activity)?.window
@@ -64,7 +67,6 @@ fun HomeScreen(navController: NavController) {
                 .padding(vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Meine Flüge",
                 fontSize = 18.sp,
@@ -88,7 +90,10 @@ fun HomeScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Box(modifier = Modifier.weight(1f)) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
             AndroidView(
                 factory = {
                     webView.apply {
@@ -109,8 +114,35 @@ fun HomeScreen(navController: NavController) {
                 },
                 modifier = Modifier.fillMaxSize()
             )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                UploadOption1(
+                    text = "",
+                    R.drawable.icon_notification,
+                    109.dp,
+                    buttonColor = colorResource(id = R.color.btnColor)
+                ) { }
+                UploadOption1(
+                    text = "",
+                    iconRes = R.drawable.icon_direction,
+                    width = 109.dp,
+                    buttonColor = colorResource(id = R.color.blue)
+                ) { }
+
+                UploadOption1(
+                    text = "",
+                    R.drawable.icon_setting,
+                    109.dp,
+                    buttonColor = colorResource(id = R.color.btnColor)
+                ) { }
+            }
         }
-        BottomNavigationBar()
 
         BackHandler {
             if (webView.canGoBack()) {
@@ -118,6 +150,44 @@ fun HomeScreen(navController: NavController) {
             } else {
                 navController.popBackStack()
             }
+        }
+    }
+}
+
+@Composable
+fun UploadOption1(text: String, iconRes: Int, width: Dp,buttonColor: Color, onClick: () -> Unit ) {
+    Box(
+        modifier = Modifier
+            .shadow(
+                elevation = 19.dp,
+                shape = RoundedCornerShape(8.dp),
+                ambientColor = Color.Black,
+                spotColor = Color.Black
+            )
+            .clip(RoundedCornerShape(8.dp))
+            .background(colorResource(id = R.color.btnColor))
+            .clickable { onClick() }
+            .background(buttonColor)
+            .width(width)
+            .height(45.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = text,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = text,
+                color = Color.White,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Normal
+            )
         }
     }
 }
@@ -137,8 +207,9 @@ fun NoTicketsAvailable(navController: NavController) {
             .background(colorResource(id = R.color.btnColor), shape = RoundedCornerShape(12.dp))
             .padding(16.dp)
             .clickable {
+                Log.d("Navigation", "Navigating to upload_ticket_screen")
                 navController.navigate("upload_ticket_screen")
-            },
+},
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -170,11 +241,9 @@ fun NoTicketsAvailable(navController: NavController) {
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-
         }
     }
 }
-
 
 @Composable
 fun CategoryButton(text: String, iconRes: Int) {
@@ -200,34 +269,9 @@ fun CategoryButton(text: String, iconRes: Int) {
     }
 }
 
-@Composable
-fun BottomNavigationBar() {
-    NavigationBar(containerColor = Color.DarkGray) {
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-            label = { Text("Home", color = Color.White) },
-            selected = true,
-            onClick = {}
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Search, contentDescription = "Search") },
-            label = { Text("Search", color = Color.White) },
-            selected = false,
-            onClick = {}
-        )
-        NavigationBarItem(
-            icon = { Icon(Icons.Filled.Settings, contentDescription = "Settings") },
-            label = { Text("Settings", color = Color.White) },
-            selected = false,
-            onClick = {}
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
     val navController = rememberNavController()
     HomeScreen(navController)
 }
-

@@ -6,11 +6,10 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,10 +28,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchRouteScreen(navController: NavController) {
     var searchText by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
@@ -91,7 +91,7 @@ fun SearchRouteScreen(navController: NavController) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(104.dp)
+                .height(140.dp)
                 .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
                 .padding(8.dp),
             contentAlignment = Alignment.Center
@@ -100,63 +100,93 @@ fun SearchRouteScreen(navController: NavController) {
                 var startPoint by remember { mutableStateOf("") }
                 var destination by remember { mutableStateOf("") }
 
-                // First Search Box (Start Location)
-                TextField(
-                    value = startPoint,
-                    onValueChange = { startPoint = it },
-                    placeholder = {
-                        Text(
-                            "Grobraum-büro", // Updated text
-                            color = colorResource(id = R.color.textColor),
-                            fontSize = 18.sp
-                        )
-                    },
-                    modifier = Modifier
-                        .width(260.dp)
-                        .height(50.dp)// Fixed width
-                        .background(
-                            colorResource(id = R.color.background),
-                            RoundedCornerShape(8.dp)
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    TextField(
+                        value = startPoint,
+                        onValueChange = { startPoint = it },
+                        placeholder = {
+                            Text(
+                                text = "Grobraum-büro",
+                                color = colorResource(id = R.color.textColor),
+                                fontSize = 16.sp
+                            )
+                        },
+                        modifier = Modifier
+                            .width(264.dp)
+                            .background(
+                                colorResource(id = R.color.background),
+                                RoundedCornerShape(8.dp)
+                            ),
+                        textStyle = LocalTextStyle.current.copy(color = Color.White),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.Black,
+                            focusedContainerColor = Color.Black,
+                            cursorColor = Color.White,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
                         ),
-                    textStyle = LocalTextStyle.current.copy(color = Color.White),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.Black,
-                        focusedContainerColor = Color.Black,
-                        cursorColor = Color.White,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
+                        shape = RoundedCornerShape(8.dp),
+                        singleLine = true,
+                        trailingIcon = {
+                            IconButton(onClick = { startPoint = "" }) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = "Clear text",
+                                    tint = Color.White
+                                )
+                            }
+                        }
                     )
-                )
+                }
+
+
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Second Search Box (Destination)
-                TextField(
-                    value = destination,
-                    onValueChange = { destination = it },
-                    placeholder = {
-                        Text(
-                            "Eingang West/Wartebereich", // Updated text
-                            color = colorResource(id = R.color.textColor),
-                            fontSize = 18.sp
-                        )
-                    },
-                    modifier = Modifier
-                        .width(260.dp)
-                        .height(50.dp)// Fixed width
-                        .background(
-                            colorResource(id = R.color.background),
-                            RoundedCornerShape(15.dp)
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    TextField(
+                        value = startPoint,
+                        onValueChange = { startPoint = it },
+                        placeholder = {
+                            Text(
+                                text = "Eingang West",
+                                color = colorResource(id = R.color.textColor),
+                                fontSize = 16.sp
+                            )
+                        },
+                        modifier = Modifier
+                            .width(264.dp)
+                            .background(
+                                colorResource(id = R.color.background),
+                                RoundedCornerShape(8.dp)
+                            ),
+                        textStyle = LocalTextStyle.current.copy(color = Color.White),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.Black,
+                            focusedContainerColor = Color.Black,
+                            cursorColor = Color.White,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
                         ),
-                    textStyle = LocalTextStyle.current.copy(color = Color.White),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.Black,
-                        focusedContainerColor = Color.Black,
-                        cursorColor = Color.White,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
+                        shape = RoundedCornerShape(8.dp),
+                        singleLine = true,
+                        trailingIcon = {
+                            IconButton(onClick = { startPoint = "" }) {
+                                Icon(
+                                    imageVector = Icons.Default.Close,
+                                    contentDescription = "Clear text",
+                                    tint = Color.White
+                                )
+                            }
+                        }
                     )
-                )
+                }
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -196,131 +226,6 @@ fun FloorMapWebView1(url: String) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchRouteScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.background))
-            .padding(16.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 8.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .height(50.dp)
-                    .width(50.dp)
-                    .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                    .padding(horizontal = 12.dp, vertical = 4.dp),
-                contentAlignment = Alignment.Center
-
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_left),
-                    contentDescription = "Back",
-                    tint = Color.White,
-                    modifier = Modifier.size(10.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                .padding(12.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Hallo Niko Rangos",
-                color = Color.White,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                .padding(8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                var startPoint by remember { mutableStateOf("") }
-                var destination by remember { mutableStateOf("") }
-
-                // First Search Box (Start Location)
-                TextField(
-                    value = startPoint,
-                    onValueChange = { startPoint = it },
-                    placeholder = {
-                        Text(
-                            "Grobraum-büro", // Updated text
-                            color = colorResource(id = R.color.textColor),
-                            fontSize = 15.sp
-                        )
-                    },
-                    modifier = Modifier
-                        .width(260.dp)
-                        .height(55.dp)// Fixed width
-                        .background(
-                            colorResource(id = R.color.background),
-                            RoundedCornerShape(8.dp)
-                        ),
-                    textStyle = LocalTextStyle.current.copy(color = Color.White),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.Black,
-                        focusedContainerColor = Color.Black,
-                        cursorColor = Color.White,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    )
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // Second Search Box (Destination)
-                TextField(
-                    value = destination,
-                    onValueChange = { destination = it },
-                    placeholder = {
-                        Text(
-                            "Eingang West/Wartebereich", // Updated text
-                            color = colorResource(id = R.color.textColor),
-                            fontSize = 15.sp
-                        )
-                    },
-                    modifier = Modifier
-                        .width(260.dp)
-                        .height(55.dp)// Fixed width
-                        .background(
-                            colorResource(id = R.color.background),
-                            RoundedCornerShape(15.dp)
-                        ),
-                    textStyle = LocalTextStyle.current.copy(color = Color.White),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.Black,
-                        focusedContainerColor = Color.Black,
-                        cursorColor = Color.White,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    )
-                )
-            }
-        }
-
-    }
-
+  SearchRouteScreen(navController = rememberNavController())
 }
 

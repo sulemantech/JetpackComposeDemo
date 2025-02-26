@@ -79,7 +79,8 @@ fun RegisterScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(scrollState),
+                .verticalScroll(scrollState)
+            .windowInsetsPadding(WindowInsets.ime)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_g8_way_welcome),
@@ -249,7 +250,7 @@ fun RegisterScreen(navController: NavController) {
                     maxLines = 2,
                     softWrap = true,
                     lineHeight = 20.sp,
-                            modifier = Modifier.padding(start = 7.5.dp)
+                    modifier = Modifier.padding(start = 7.5.dp)
                 )
             }
             Row(
@@ -302,8 +303,10 @@ fun RegisterScreen(navController: NavController) {
                     .fillMaxWidth()
                     .height(56.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (email.text.isNotEmpty()) Color(0xFF00FFFF) else colorResource(id = R.color.teal_700
-                    )
+                    containerColor = if (!isEmailValid || email.text.isEmpty())
+                        colorResource(id = R.color.teal_700)
+                    else
+                        Color(0xFF00FFFF)
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -350,7 +353,11 @@ fun CustomCheckbox(
         modifier = modifier
             .size(22.dp)
             .clip(RoundedCornerShape(6.dp))
-            .border(1.dp, if (checked) colorResource(id = R.color.blue) else Color.Gray, RoundedCornerShape(6.dp)) // Border color changes
+            .border(
+                1.dp,
+                if (checked) colorResource(id = R.color.blue) else Color.Gray,
+                RoundedCornerShape(6.dp)
+            ) // Border color changes
             .background(if (checked) Color.Black else Color.Transparent), // Black when checked, transparent when unchecked
         contentAlignment = Alignment.Center
     ) {

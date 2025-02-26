@@ -110,12 +110,11 @@ fun G8WayScreen(navController: NavController) {
                 modifier = Modifier.padding(top = 15.dp)
             )
 
-
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
-                    .background(Color.DarkGray, shape = RoundedCornerShape(8.dp))
+                    .background(colorResource(id = R.color.btnColor), shape = RoundedCornerShape(8.dp))
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -130,7 +129,7 @@ fun G8WayScreen(navController: NavController) {
                         fontSize = 16.sp,
                         fontFamily = robotoFontFamily,
                         fontWeight = FontWeight.W300,
-                        lineHeight = 24.sp // Adjust this value as needed
+                        lineHeight = 24.sp
                     )
                     Text(
                         text = stringResource(id = R.string.munich_airport),
@@ -138,7 +137,6 @@ fun G8WayScreen(navController: NavController) {
                         fontSize = 16.sp,
                         fontFamily = robotoFontFamily1,
                         fontWeight = FontWeight.W400,
-                        lineHeight = 24.sp // Match the lineHeight for consistency
                     )
 
                 }

@@ -123,29 +123,35 @@ fun UploadTicketScreen(navController: NavController) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(58.dp))
+                Spacer(modifier = Modifier.height(60.dp))
+
                 Box(
-                    modifier = Modifier.fillMaxWidth()
-                    .padding(top = 30.dp),// Margin from text to Divider
+                    modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
                     if (selectedImageBitmap == null && selectedFileUri == null) {
-                        Divider(
-                            color = Color(0xFF00796B),
-                            thickness = 1.dp,
-                            modifier = Modifier.width(140.dp)
-                        )
+                        Box(
+                            modifier = Modifier.fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Divider(
+                                color = Color(0xFF00796B),
+                                thickness = 1.dp,
+                                modifier = Modifier
+                                    .width(140.dp)
+                                    .padding(bottom = 20.dp) // Added space before image
+                            )
+                        }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(20.dp)) // Margin from Divider to Image Box
 
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(90.dp)
+                        .height(240.dp)
+                        .padding(bottom = 70.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(colorResource(id =R.color.btnColor )),
+                        .background(colorResource(id = R.color.btnColor)),
                     contentAlignment = Alignment.Center
                 ) {
                     when {
@@ -154,9 +160,14 @@ fun UploadTicketScreen(navController: NavController) {
                                 bitmap = selectedImageBitmap!!.asImageBitmap(),
                                 contentDescription = stringResource(id = R.string.select_image),
                                 contentScale = ContentScale.Crop,
-                                modifier = Modifier.fillMaxSize()
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(250.dp)
+                                    .padding(top=20.dp)
+                                    .clip(RoundedCornerShape(12.dp))
                             )
                         }
+
                         selectedFileUri != null -> {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Icon(
@@ -173,12 +184,14 @@ fun UploadTicketScreen(navController: NavController) {
                                 )
                             }
                         }
+
                         else -> {
                             Image(
                                 painter = painterResource(id = R.drawable.upload_ticket),
                                 contentDescription = stringResource(id = R.string.Upload_Ticket_Icon),
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier.size(147.dp, 39.dp)
+
                             )
                         }
                     }
