@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.util.regex.Pattern
 
 
@@ -46,6 +47,12 @@ fun LoginScreen(navController: NavController) {
     val robotoFontFamily = FontFamily(Font(R.font.roboto_light))
     val scrollState = rememberScrollState()
 
+    val systemUiController = rememberSystemUiController()
+    val backgroundColor = colorResource(id = R.color.background)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = backgroundColor)
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()

@@ -28,134 +28,148 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SearchScreen(navController: NavController) {
     var searchText by remember { mutableStateOf("") }
     var showAutoComplete by remember { mutableStateOf(false) }
 
+    val systemUiController = rememberSystemUiController()
+    val backgroundColor = colorResource(id = R.color.background)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = backgroundColor)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
-            .padding(16.dp),
-        // horizontalAlignment = Alignment.CenterHorizontally
+            .background(color = colorResource(id = R.color.background))
+
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 8.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .height(50.dp)
-                    .width(50.dp)
-                    .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                    .padding(horizontal = 12.dp, vertical = 4.dp),
-                contentAlignment = Alignment.Center
-
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 8.dp)
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_left),
-                    contentDescription = "Back",
-                    tint = Color.White,
+                Box(
                     modifier = Modifier
-                        .size(24.dp)
-                        .clickable { navController.popBackStack() }
-                )
+                        .size(48.dp)
+                        .height(50.dp)
+                        .width(50.dp)
+                        .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
+                        .padding(horizontal = 12.dp, vertical = 4.dp),
+                    contentAlignment = Alignment.Center
 
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_left),
+                        contentDescription = "Back",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(10.dp)
+                            .clickable { navController.popBackStack() }
+                    )
+
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
-        }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
+                    .padding(12.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Hallo Niko Rangos",
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                .padding(12.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Hallo Niko Rangos",
-                color = Color.White,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.DarkGray, RoundedCornerShape(8.dp))
-                .padding(8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
+                    .padding(8.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
 //                if (!showAutoComplete) {
 
-                TextField(
-                    value = searchText,
-                    onValueChange = { searchText = it },
-                    placeholder = {
-                        Text(
-                            "Standort suchen & navi...",
-                            color = Color.Gray,
-                            fontSize = 18.sp
+                    TextField(
+                        value = searchText,
+                        onValueChange = { searchText = it },
+                        placeholder = {
+                            Text(
+                                "Standort suchen & navi...",
+                                color = Color.Gray,
+                                fontSize = 18.sp
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(Color.Black),
+                        textStyle = LocalTextStyle.current.copy(color = Color.White),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.Black,
+                            focusedContainerColor = Color.Black,
+                            cursorColor = Color.White,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
                         )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color.Black),
-                    textStyle = LocalTextStyle.current.copy(color = Color.White),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = TextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.Black,
-                        focusedContainerColor = Color.Black,
-                        cursorColor = Color.White,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
                     )
-                )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                Button(
-                    onClick = { navController.navigate("search_route_screen") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(39.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)
-                ) {
-                    Text("Wegbeschreibung", color = Color.Black, fontSize = 16.sp)
-                }
+                    Button(
+                        onClick = { navController.navigate("search_route_screen") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(39.dp),
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)
+                    ) {
+                        Text("Wegbeschreibung", color = Color.Black, fontSize = 16.sp)
+                    }
 //                } else {
 //
 //                    AutoCompleteTextView(label = "Grobraum-büro")
 //                    Spacer(modifier = Modifier.height(8.dp))
 //                    AutoCompleteTextView(label = "Eingang West/Wartebereich")
 //                }
+                }
             }
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(5.dp))
 
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
+                .padding(horizontal = 0.dp)
         ) {
             FloorMapWebView(url = "https://g8way-app.com/map/")
         }
+
     }
 }
 

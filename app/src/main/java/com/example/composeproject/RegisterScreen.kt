@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.util.regex.Pattern
 
 @Composable
@@ -52,6 +53,13 @@ fun RegisterScreen(navController: NavController) {
     var isEmailValid by remember { mutableStateOf(true) }
     var isTermsAccepted by remember { mutableStateOf(false) }
     var isPrivacyAccepted by remember { mutableStateOf(false) }
+
+    val systemUiController = rememberSystemUiController()
+    val backgroundColor = colorResource(id = R.color.background)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = backgroundColor)
+    }
 
     val scrollState = rememberScrollState()
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -224,7 +232,7 @@ fun RegisterScreen(navController: NavController) {
                 CustomCheckbox(
                     checked = isTermsAccepted,
                     onCheckedChange = { isTermsAccepted = it },
-                    modifier = Modifier.padding(start = 16.dp, top = 2.dp)
+                    modifier = Modifier.padding(start = 5.dp, top = 2.dp)
                 )
 
                 Text(
@@ -262,7 +270,7 @@ fun RegisterScreen(navController: NavController) {
                 CustomCheckbox(
                     checked = isPrivacyAccepted,
                     onCheckedChange = { isPrivacyAccepted = it },
-                    modifier = Modifier.padding(start = 16.dp)
+                    modifier = Modifier.padding(start = 5.dp)
                 )
                 Text(
                     buildAnnotatedString {

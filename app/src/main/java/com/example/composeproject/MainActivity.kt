@@ -33,6 +33,8 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.NavHostController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+
 
 
 class MainActivity : ComponentActivity() {
@@ -64,6 +66,12 @@ fun AppNavigation(navController: NavHostController) {
 
 @Composable
 fun G8WayScreen(navController: NavController) {
+    val systemUiController = rememberSystemUiController()
+    val backgroundColor = colorResource(id = R.color.background)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = backgroundColor)
+    }
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.aircraftstartpage))
 
     val robotoFontFamily = FontFamily(

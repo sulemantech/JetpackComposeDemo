@@ -87,14 +87,14 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.androidx.material3.v120) // Update to latest
+    implementation(libs.androidx.material3.v120)
     implementation(libs.ui.tooling.preview)
     implementation (libs.androidx.core.ktx.v1120)
     implementation (libs.androidx.work.runtime.ktx)
     implementation( libs.androidx.datastore.preferences)
     implementation (libs.androidx.ui.tooling.preview.v150)
     implementation (libs.lottie.compose)
-
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 

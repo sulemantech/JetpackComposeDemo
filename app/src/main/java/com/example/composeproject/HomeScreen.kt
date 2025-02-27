@@ -42,6 +42,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -49,6 +50,13 @@ fun HomeScreen(navController: NavController) {
     val context = LocalContext.current
     val webView = remember { WebView(context) }
     val view = LocalView.current
+
+    val systemUiController = rememberSystemUiController()
+    val backgroundColor = colorResource(id = R.color.background)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = backgroundColor)
+    }
 
     SideEffect {
         val window = (view.context as? android.app.Activity)?.window

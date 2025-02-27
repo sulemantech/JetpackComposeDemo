@@ -24,6 +24,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 @Composable
@@ -31,6 +32,13 @@ fun EmailVerificationScreen (navController: NavController){
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.checkmails))
     val progress by animateLottieCompositionAsState(composition)
+
+    val systemUiController = rememberSystemUiController()
+    val backgroundColor = colorResource(id = R.color.background)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = backgroundColor)
+    }
 
     val customFont = FontFamily(
         Font(R.font.roboto_light, FontWeight.Light)
@@ -57,7 +65,7 @@ fun EmailVerificationScreen (navController: NavController){
             Spacer(modifier = Modifier.height(30.dp))
 
             Image(
-                painter = painterResource(id = R.drawable.ic_g8way),
+                painter = painterResource(id = R.drawable.ic_for_verification),
                 contentDescription = "Image from resources",
                 modifier = Modifier.size(147.dp,39.dp),
                 contentScale = ContentScale.Crop

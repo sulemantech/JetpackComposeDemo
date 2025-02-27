@@ -6,9 +6,12 @@ import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,179 +30,234 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SearchRouteScreen(navController: NavController) {
-    var searchText by remember { mutableStateOf("") }
-    var text by remember { mutableStateOf("") }
+    var startPoint by remember { mutableStateOf("") }
+    var destination by remember { mutableStateOf("") }
 
+    val systemUiController = rememberSystemUiController()
+    val backgroundColor = colorResource(id = R.color.background)
+
+    SideEffect {
+        systemUiController.setStatusBarColor(color = backgroundColor)
+    }
+
+    val locations = listOf("Großraumbüro", "Eingang West", "Meeting Room", "Lobby")
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
-            .padding(16.dp)
+            .background(color = colorResource(id = R.color.background))
+
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(bottom = 8.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .height(50.dp)
+                        .width(50.dp)
+                        .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
+                        .padding(horizontal = 12.dp, vertical = 4.dp),
+                    contentAlignment = Alignment.Center
+
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_left),
+                        contentDescription = "Back",
+                        tint = Color.White,
+                        modifier = Modifier
+                            .size(10.dp)
+                            .clickable { navController.popBackStack() }
+                    )
+
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
+            }
+
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+
             Box(
                 modifier = Modifier
-                    .size(48.dp)
-                    .height(50.dp)
-                    .width(50.dp)
+                    .fillMaxWidth()
                     .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                    .padding(horizontal = 12.dp, vertical = 4.dp),
+                    .padding(12.dp),
                 contentAlignment = Alignment.Center
-
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_left),
-                    contentDescription = stringResource(id = R.string.back_icon_desc),
-                    tint = Color.White,
-                    modifier = Modifier.size(10.dp)
+                Text(
+                    text = "Hallo Niko Rangos",
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Text( text = stringResource(id = R.string.suchen), color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
-
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                .padding(12.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Hallo Niko Rangos",
-                color = Color.White,
-                fontSize = 16.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(140.dp)
-                .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                .padding(8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                var startPoint by remember { mutableStateOf("") }
-                var destination by remember { mutableStateOf("") }
-
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp)
+                    .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
+                    .padding(8.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    TextField(
-                        value = startPoint,
-                        onValueChange = { startPoint = it },
-                        placeholder = {
-                            Text(
-                                text = "Grobraum-büro",
-                                color = colorResource(id = R.color.textColor),
-                                fontSize = 16.sp
+
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Top
+                    ) {
+
+                        IconButton(onClick = { /* Right arrow action */ }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.icon_loc),
+                                contentDescription = "Right Arrow",
+                                tint = Color.White
                             )
-                        },
-                        modifier = Modifier
-                            .width(264.dp)
-                            .background(
-                                colorResource(id = R.color.background),
-                                RoundedCornerShape(8.dp)
-                            ),
-                        textStyle = LocalTextStyle.current.copy(color = Color.White),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.Black,
-                            focusedContainerColor = Color.Black,
-                            cursorColor = Color.White,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        ),
-                        shape = RoundedCornerShape(8.dp),
-                        singleLine = true,
-                        trailingIcon = {
-                            IconButton(onClick = { startPoint = "" }) {
-                                Icon(
-                                    imageVector = Icons.Default.Close,
-                                    contentDescription = "Clear text",
-                                    tint = Color.White
-                                )
-                            }
                         }
-                    )
-                }
+                    }
 
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        AutoCompleteTextField(
+                            label = "Grobraum-büro",
+                            text = startPoint,
+                            onTextChange = { startPoint = it },
+                            suggestions = locations
+                        )
 
+                        Spacer(modifier = Modifier.height(8.dp))
 
-                Spacer(modifier = Modifier.height(8.dp))
+                        AutoCompleteTextField(
+                            label = "Eingang West/Wartebe",
+                            text = destination,
+                            onTextChange = { destination = it },
+                            suggestions = locations
+                        )
+                    }
 
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    TextField(
-                        value = startPoint,
-                        onValueChange = { startPoint = it },
-                        placeholder = {
-                            Text(
-                                text = "Eingang West",
-                                color = colorResource(id = R.color.textColor),
-                                fontSize = 16.sp
-                            )
-                        },
-                        modifier = Modifier
-                            .width(264.dp)
-                            .background(
-                                colorResource(id = R.color.background),
-                                RoundedCornerShape(8.dp)
-                            ),
-                        textStyle = LocalTextStyle.current.copy(color = Color.White),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.Black,
-                            focusedContainerColor = Color.Black,
-                            cursorColor = Color.White,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
-                        ),
-                        shape = RoundedCornerShape(8.dp),
-                        singleLine = true,
-                        trailingIcon = {
-                            IconButton(onClick = { startPoint = "" }) {
-                                Icon(
-                                    imageVector = Icons.Default.Close,
-                                    contentDescription = "Clear text",
-                                    tint = Color.White
-                                )
-                            }
-                        }
-                    )
+                    IconButton(onClick = {
+                        val temp = startPoint
+                        startPoint = destination
+                        destination = temp
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_swap),
+                            contentDescription = "Swap Locations",
+                            tint = Color.White
+                        )
+                    }
+
                 }
             }
         }
-        Spacer(modifier = Modifier.height(8.dp))
+
+        Spacer(modifier = Modifier.height(5.dp))
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
+            modifier = Modifier.fillMaxWidth()
         ) {
             FloorMapWebView1(url = "https://g8way-app.com/map/")
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AutoCompleteTextField(
+    label: String,
+    text: String,
+    onTextChange: (String) -> Unit,
+    suggestions: List<String>
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val filteredSuggestions = suggestions.filter { it.contains(text, ignoreCase = true) }
+    val isSelected = remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        ExposedDropdownMenuBox(
+            expanded = expanded,
+            onExpandedChange = { expanded = it }
+        ) {
+            TextField(
+                value = text,
+                onValueChange = {
+                    onTextChange(it)
+                    expanded = true
+                    isSelected.value = false
+                },
+                placeholder = { Text(text = label, color = Color.Gray) },
+                modifier = Modifier
+                    .width(264.dp)
+                    .menuAnchor(),
+                textStyle = LocalTextStyle.current.copy(color = if (isSelected.value) Color.Gray else Color.White),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.Black,
+                    focusedContainerColor = Color.Black,
+                    cursorColor = Color.White,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                shape = RoundedCornerShape(8.dp),
+                trailingIcon = {
+                    IconButton(onClick = { onTextChange(""); isSelected.value = false }) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Clear text",
+                            tint = Color.White
+                        )
+                    }
+                }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            ExposedDropdownMenu(
+                expanded = expanded && filteredSuggestions.isNotEmpty(),
+                onDismissRequest = { expanded = false },
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+            ) {
+                filteredSuggestions.forEach { suggestion ->
+                    DropdownMenuItem(
+                        text = { Text(suggestion, color = Color.Black) },
+                        onClick = {
+                            onTextChange(suggestion)
+                            isSelected.value = true
+                            expanded = false
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
@@ -226,6 +284,6 @@ fun FloorMapWebView1(url: String) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewSearchRouteScreen() {
-  SearchRouteScreen(navController = rememberNavController())
+    SearchRouteScreen(navController = rememberNavController())
 }
 
