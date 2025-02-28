@@ -1,6 +1,5 @@
-package com.example.composeproject
+package com.example.composeproject.activities
 
-import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
@@ -15,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -34,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import java.util.regex.Pattern
 
@@ -47,6 +46,10 @@ fun LoginScreen(navController: NavController) {
     val robotoFontFamily = FontFamily(Font(R.font.roboto_light))
     val scrollState = rememberScrollState()
 
+    val robotoFontFamily1 = FontFamily(
+        Font(R.font.roboto_regular)
+    )
+
     val systemUiController = rememberSystemUiController()
     val backgroundColor = colorResource(id = R.color.background)
 
@@ -58,19 +61,19 @@ fun LoginScreen(navController: NavController) {
             .fillMaxSize()
             .background(color = colorResource(id = R.color.background))
             .padding(16.dp)
-            .height(812.dp)
             .imePadding(),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+           // verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(scrollState)
                 .windowInsetsPadding(WindowInsets.ime)
 
         ) {
+
             Image(
                 painter = painterResource(id = R.drawable.ic_g8_way_welcome),
                 contentDescription = stringResource(id = R.string.image_from_resources),
@@ -78,17 +81,18 @@ fun LoginScreen(navController: NavController) {
                 contentScale = ContentScale.Crop
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(42.dp))
 
             Text(
                 text = stringResource(id = R.string.login),
                 color = colorResource(id = R.color.btn_text_field),
                 fontSize = 24.sp,
                 fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.W300,
+                fontWeight = FontWeight.W400,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 40.dp)
+               // modifier = Modifier.padding(bottom = 40.dp)
             )
+            Spacer(modifier = Modifier.height(40.dp))
 
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -164,7 +168,7 @@ fun LoginScreen(navController: NavController) {
                         containerColor = if (!isEmailValid || email.text.isEmpty())
                             colorResource(id = R.color.teal_700)
                         else
-                            Color(0xFF00FFFF)
+                            colorResource(id = R.color.blue)
                     ),
                     shape = RoundedCornerShape(12.dp)
                 ) {
@@ -176,6 +180,8 @@ fun LoginScreen(navController: NavController) {
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(24.dp))
+
             Text(
                 buildAnnotatedString {
                     append(stringResource(id = R.string.no_account, ""))

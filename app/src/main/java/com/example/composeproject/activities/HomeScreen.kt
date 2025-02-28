@@ -1,4 +1,4 @@
-package com.example.composeproject
+package com.example.composeproject.activities
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -15,9 +15,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -39,9 +35,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -58,11 +54,6 @@ fun HomeScreen(navController: NavController) {
         systemUiController.setStatusBarColor(color = backgroundColor)
     }
 
-    SideEffect {
-        val window = (view.context as? android.app.Activity)?.window
-        window?.statusBarColor = android.graphics.Color.BLACK
-        WindowInsetsControllerCompat(window!!, window.decorView).isAppearanceLightStatusBars = false
-    }
 
     Column(
         modifier = Modifier
@@ -96,7 +87,7 @@ fun HomeScreen(navController: NavController) {
             CategoryButton("Lounge", R.drawable.ic_lounge)
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Box(
             modifier = Modifier
@@ -271,7 +262,7 @@ fun CategoryButton(text: String, iconRes: Int) {
         )
         Text(
             text = text,
-            color = Color.White,
+            color = colorResource(id = R.color.btn_text_field),
             fontSize = 14.sp
         )
     }

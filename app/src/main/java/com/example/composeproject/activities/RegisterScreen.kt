@@ -1,4 +1,4 @@
-package com.example.composeproject
+package com.example.composeproject.activities
 
 import android.util.Patterns
 import androidx.compose.foundation.Image
@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,6 +21,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -43,8 +43,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import java.util.regex.Pattern
 
 @Composable
 fun RegisterScreen(navController: NavController) {
@@ -53,26 +53,28 @@ fun RegisterScreen(navController: NavController) {
     var isEmailValid by remember { mutableStateOf(true) }
     var isTermsAccepted by remember { mutableStateOf(false) }
     var isPrivacyAccepted by remember { mutableStateOf(false) }
-
     val systemUiController = rememberSystemUiController()
     val backgroundColor = colorResource(id = R.color.background)
-
-    SideEffect {
-        systemUiController.setStatusBarColor(color = backgroundColor)
-    }
-
     val scrollState = rememberScrollState()
     val keyboardController = LocalSoftwareKeyboardController.current
-
     var isNameFocused by remember { mutableStateOf(false) }
-
     val nameFocusRequester = remember { FocusRequester() }
     val emailFocusRequester = remember { FocusRequester() }
+    val checkboxFocusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
+
+
 
     val robotoFontFamily = FontFamily(
         Font(R.font.roboto_light)
     )
+    val robotoFontFamily1 = FontFamily(
+        Font(R.font.roboto_regular)
+    )
+    SideEffect {
+        systemUiController.setStatusBarColor(color = backgroundColor)
+    }
 
     Box(
         modifier = Modifier
@@ -84,11 +86,11 @@ fun RegisterScreen(navController: NavController) {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+          //  verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(scrollState)
-            .windowInsetsPadding(WindowInsets.ime)
+                .verticalScroll(rememberScrollState())
+           // .windowInsetsPadding(WindowInsets.ime)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_g8_way_welcome),
@@ -96,7 +98,7 @@ fun RegisterScreen(navController: NavController) {
                 modifier = Modifier.size(147.dp, 39.dp),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(1.dp))
+            Spacer(modifier = Modifier.height(33.dp))
 
             Text(
                 text = stringResource(id = R.string.register),
@@ -104,9 +106,8 @@ fun RegisterScreen(navController: NavController) {
                 fontSize = 24.sp,
                 fontFamily = robotoFontFamily,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(bottom = 16.dp)
             )
-
+            Spacer(modifier = Modifier.height(40.dp))
 
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -160,6 +161,7 @@ fun RegisterScreen(navController: NavController) {
                     )
                 )
             }
+            Spacer(modifier = Modifier.height(20.dp))
 
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
@@ -174,7 +176,6 @@ fun RegisterScreen(navController: NavController) {
                 fun isValidEmail(email: String): Boolean {
                     return Patterns.EMAIL_ADDRESS.matcher(email).matches()
                 }
-
                 OutlinedTextField(
                     value = email,
                     onValueChange = {
@@ -211,7 +212,15 @@ fun RegisterScreen(navController: NavController) {
                         cursorColor = colorResource(id = R.color.blue)
                     ),
                     isError = !isEmailValid,
-                    textStyle = TextStyle(color = Color.White)
+                    textStyle = TextStyle(color = Color.White),
+                    keyboardActions = KeyboardActions(
+                        onNext = {
+                            focusManager.clearFocus()
+                            checkboxFocusRequester.requestFocus()                        }
+                    ),
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Next
+                    )
                 )
 
                 if (!isEmailValid) {
@@ -223,7 +232,7 @@ fun RegisterScreen(navController: NavController) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(24.dp))
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -232,7 +241,9 @@ fun RegisterScreen(navController: NavController) {
                 CustomCheckbox(
                     checked = isTermsAccepted,
                     onCheckedChange = { isTermsAccepted = it },
-                    modifier = Modifier.padding(start = 5.dp, top = 2.dp)
+                    modifier = Modifier
+                        .padding(start = 5.dp, top = 2.dp)
+                        .focusRequester(checkboxFocusRequester)
                 )
 
                 Text(
@@ -261,6 +272,8 @@ fun RegisterScreen(navController: NavController) {
                     modifier = Modifier.padding(start = 7.5.dp)
                 )
             }
+            Spacer(modifier = Modifier.height(24.dp))
+
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -296,7 +309,7 @@ fun RegisterScreen(navController: NavController) {
                 )
             }
 
-            Spacer(modifier = Modifier.height(0.1.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Button(
                 onClick = {
@@ -314,7 +327,7 @@ fun RegisterScreen(navController: NavController) {
                     containerColor = if (!isEmailValid || email.text.isEmpty())
                         colorResource(id = R.color.teal_700)
                     else
-                        Color(0xFF00FFFF)
+                        colorResource(id = R.color.blue)
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -325,6 +338,8 @@ fun RegisterScreen(navController: NavController) {
                     fontWeight = FontWeight.Medium
                 )
             }
+            Spacer(modifier = Modifier.height(24.dp))
+
             Text(
                 buildAnnotatedString {
                     append(stringResource(id = R.string.bereits_registriert))
@@ -365,8 +380,8 @@ fun CustomCheckbox(
                 1.dp,
                 if (checked) colorResource(id = R.color.blue) else Color.Gray,
                 RoundedCornerShape(6.dp)
-            ) // Border color changes
-            .background(if (checked) Color.Black else Color.Transparent), // Black when checked, transparent when unchecked
+            )
+            .background(if (checked) Color.Black else Color.Transparent),
         contentAlignment = Alignment.Center
     ) {
         Checkbox(

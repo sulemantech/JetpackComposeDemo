@@ -1,4 +1,4 @@
-package com.example.composeproject
+package com.example.composeproject.activities
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -34,6 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -90,7 +89,7 @@ fun UploadTicketScreen(navController: NavController) {
                 .height(790.dp)
                 .align(Alignment.BottomCenter)
                 .clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp))
-                .background(colorResource(id =R.color.btnColor ))
+                .background(colorResource(id = R.color.btnColor))
         ) {
             Column(
                 modifier = Modifier
@@ -218,7 +217,7 @@ fun UploadTicketScreen(navController: NavController) {
                 Button(
                     onClick = { if (isUploadEnabled) navController.navigate("search_screen") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isUploadEnabled)  colorResource(id = R.color.blue) else Color(0xFF00796B) // Dark Blue when enabled, same when disabled
+                        containerColor = if (isUploadEnabled)  colorResource(id = R.color.blue) else  colorResource(id = R.color.teal_700)
                     ),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
@@ -247,7 +246,7 @@ fun UploadOptionButton(text: String, iconRes: Int, width: Dp, onClick: () -> Uni
                 spotColor = Color.Black
             )
             .clip(RoundedCornerShape(8.dp))
-            .background(colorResource(id =R.color.btnColor ))
+            .background(colorResource(id = R.color.btnColor))
             .clickable { onClick() }
             .width(width)
             .height(45.dp),

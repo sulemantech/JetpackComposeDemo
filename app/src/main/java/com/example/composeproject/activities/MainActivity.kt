@@ -1,4 +1,4 @@
-package com.example.composeproject
+package com.example.composeproject.activities
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -12,7 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -33,6 +33,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.NavHostController
+import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
@@ -93,13 +94,15 @@ fun G8WayScreen(navController: NavController) {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+           // verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             LottieAnimation(
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
-                modifier = Modifier.size(210.dp, 100.dp),
+                modifier = Modifier
+                    .size(250.dp, 120.dp)
+                    .graphicsLayer(rotationZ = -8f)
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_g8_way_welcome),
@@ -107,6 +110,7 @@ fun G8WayScreen(navController: NavController) {
                 modifier = Modifier.size(147.dp, 39.dp),
                 contentScale = ContentScale.Crop,
             )
+            Spacer(modifier = Modifier.padding(bottom = 10.dp))
 
             Text(
                 text = stringResource(id = R.string.register_and_navigate),
@@ -115,7 +119,7 @@ fun G8WayScreen(navController: NavController) {
                 textAlign = TextAlign.Center,
                 fontFamily = robotoFontFamily1,
                 fontWeight = FontWeight.W400,
-                modifier = Modifier.padding(top = 15.dp)
+                modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
             )
 
             Box(
@@ -150,23 +154,25 @@ fun G8WayScreen(navController: NavController) {
                 }
             }
 
+            Spacer(modifier = Modifier.height(15.dp))
+
             Button(
                 onClick = {
                     navController.navigate("loginScreen")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 18.dp)
+                    .padding(top = 28.dp)
                     .height(64.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue)),
                 shape = RoundedCornerShape(12.dp)
             ) {
                 Text(
                     "Start",
-                    color = Color.Black,
-                    fontSize = 18.sp,
+                    color = colorResource(id = R.color.background),
+                    fontSize = 16.sp,
                     fontFamily = robotoFontFamily1,
-                    fontWeight = FontWeight.W500
+                    fontWeight = FontWeight.W600
                 )
             }
         }

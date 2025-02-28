@@ -1,4 +1,4 @@
-package com.example.composeproject
+package com.example.composeproject.activities
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -118,10 +119,13 @@ fun SearchScreen(navController: NavController) {
                         onValueChange = { searchText = it },
                         placeholder = {
                             Text(
-                                "Standort suchen & navi...",
-                                color = Color.Gray,
-                                fontSize = 18.sp
+                                text = "Standort suchen & navi...",
+                                color = colorResource(id = R.color.textColor),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Medium,
+                                modifier = Modifier.padding(4.dp)
                             )
+
                         },
                         modifier = Modifier
                             .fillMaxWidth()

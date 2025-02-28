@@ -1,4 +1,4 @@
-package com.example.composeproject
+package com.example.composeproject.activities
 
 import androidx.compose.foundation.Image
 import androidx.compose.ui.tooling.preview.Preview
@@ -8,7 +8,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -24,6 +23,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
@@ -56,13 +56,13 @@ fun EmailVerificationScreen (navController: NavController){
     {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            //verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
 
             LottieAnimation(composition, progress, modifier = Modifier.size(150.dp))
 
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(70.dp))
 
             Image(
                 painter = painterResource(id = R.drawable.ic_for_verification),
@@ -70,7 +70,7 @@ fun EmailVerificationScreen (navController: NavController){
                 modifier = Modifier.size(147.dp,39.dp),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.height(0.dp))
+            Spacer(modifier = Modifier.height(33.dp))
 
             Text(
                 text = "Bitte überprüfe Deine \n" +

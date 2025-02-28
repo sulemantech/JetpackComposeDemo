@@ -1,4 +1,4 @@
-package com.example.composeproject
+package com.example.composeproject.activities
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
@@ -10,8 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -130,7 +128,7 @@ fun SearchRouteScreen(navController: NavController) {
 
                         IconButton(onClick = { /* Right arrow action */ }) {
                             Icon(
-                                painter = painterResource(id = R.drawable.icon_loc),
+                                painter = painterResource(id = R.drawable.ic_location),
                                 contentDescription = "Right Arrow",
                                 tint = Color.White
                             )
@@ -211,11 +209,20 @@ fun AutoCompleteTextField(
                     expanded = true
                     isSelected.value = false
                 },
-                placeholder = { Text(text = label, color = Color.Gray) },
+                placeholder = {
+                    Text(
+                        text = label,
+                        color = Color.Gray,
+                        fontSize = 16.sp
+                    )
+                },
                 modifier = Modifier
                     .width(264.dp)
                     .menuAnchor(),
-                textStyle = LocalTextStyle.current.copy(color = if (isSelected.value) Color.Gray else Color.White),
+                textStyle = LocalTextStyle.current.copy(
+                    color = if (isSelected.value) Color.Gray else Color.White,
+                    fontSize = 16.sp
+                ),
                 colors = TextFieldDefaults.colors(
                     unfocusedContainerColor = Color.Black,
                     focusedContainerColor = Color.Black,
@@ -229,7 +236,8 @@ fun AutoCompleteTextField(
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Clear text",
-                            tint = Color.White
+                            tint = Color.White,
+                            modifier = Modifier.size(15.dp)
                         )
                     }
                 }
@@ -245,7 +253,13 @@ fun AutoCompleteTextField(
             ) {
                 filteredSuggestions.forEach { suggestion ->
                     DropdownMenuItem(
-                        text = { Text(suggestion, color = Color.Black) },
+                        text = {
+                            Text(
+                                suggestion,
+                                color = Color.Black,
+                                fontSize = 16.sp
+                            )
+                        },
                         onClick = {
                             onTextChange(suggestion)
                             isSelected.value = true
