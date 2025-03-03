@@ -169,7 +169,7 @@ fun G8WayScreen(navController: NavController) {
             ) {
                 Text(
                     "Start",
-                    color = colorResource(id = R.color.background),
+                    color = colorResource(id = R.color.text_black),
                     fontSize = 16.sp,
                     fontFamily = robotoFontFamily1,
                     fontWeight = FontWeight.W600

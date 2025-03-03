@@ -263,7 +263,8 @@ fun CategoryButton(text: String, iconRes: Int) {
         Text(
             text = text,
             color = colorResource(id = R.color.btn_text_field),
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium
         )
     }
 }

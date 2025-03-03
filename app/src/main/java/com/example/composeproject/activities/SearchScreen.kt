@@ -111,7 +111,8 @@ fun SearchScreen(navController: NavController) {
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally)
+                {
 //                if (!showAutoComplete) {
 
                     TextField(
@@ -123,7 +124,7 @@ fun SearchScreen(navController: NavController) {
                                 color = colorResource(id = R.color.textColor),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Medium,
-                                modifier = Modifier.padding(4.dp)
+                               // modifier = Modifier.padding(4.dp)
                             )
 
                         },
@@ -134,8 +135,8 @@ fun SearchScreen(navController: NavController) {
                         textStyle = LocalTextStyle.current.copy(color = Color.White),
                         shape = RoundedCornerShape(8.dp),
                         colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.Black,
-                            focusedContainerColor = Color.Black,
+                            unfocusedContainerColor = colorResource(id = R.color.text_black),
+                            focusedContainerColor =colorResource(id = R.color.text_black),
                             cursorColor = Color.White,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent
@@ -150,7 +151,7 @@ fun SearchScreen(navController: NavController) {
                             .fillMaxWidth()
                             .height(39.dp),
                         shape = RoundedCornerShape(8.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Cyan)
+                        colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue))
                     ) {
                         Text("Wegbeschreibung", color = Color.Black, fontSize = 16.sp)
                     }
@@ -166,13 +167,13 @@ fun SearchScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(5.dp))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 0.dp)
-        ) {
-            FloorMapWebView(url = "https://g8way-app.com/map/")
-        }
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 0.dp)
+//        ) {
+//            FloorMapWebView(url = "https://g8way-app.com/map/")
+//        }
 
     }
 }

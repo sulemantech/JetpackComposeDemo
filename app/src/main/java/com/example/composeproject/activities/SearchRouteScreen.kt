@@ -62,7 +62,6 @@ fun SearchRouteScreen(navController: NavController) {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
                         .height(50.dp)
                         .width(50.dp)
                         .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
@@ -99,8 +98,9 @@ fun SearchRouteScreen(navController: NavController) {
             ) {
                 Text(
                     text = "Hallo Niko Rangos",
-                    color = Color.White,
-                    fontSize = 16.sp,
+                    color = colorResource(id = R.color.btn_text_field),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -113,7 +113,7 @@ fun SearchRouteScreen(navController: NavController) {
                     .fillMaxWidth()
                     .height(140.dp)
                     .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                    .padding(8.dp)
+
             ) {
                 Row(
                     modifier = Modifier.fillMaxSize(),
@@ -196,7 +196,7 @@ fun AutoCompleteTextField(
 
     Box(
         modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center
+      //  contentAlignment = Alignment.Center
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -212,20 +212,20 @@ fun AutoCompleteTextField(
                 placeholder = {
                     Text(
                         text = label,
-                        color = Color.Gray,
-                        fontSize = 16.sp
+                        color = colorResource(id = R.color.btn_text_field),
+                        fontSize = 14.sp
                     )
                 },
                 modifier = Modifier
-                    .width(264.dp)
+                    .width(280.dp)
                     .menuAnchor(),
                 textStyle = LocalTextStyle.current.copy(
-                    color = if (isSelected.value) Color.Gray else Color.White,
+                    color = if (isSelected.value) colorResource(id = R.color.btn_text_field) else Color.White,
                     fontSize = 16.sp
                 ),
                 colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.Black,
-                    focusedContainerColor = Color.Black,
+                    unfocusedContainerColor = colorResource(id = R.color.text_black),
+                    focusedContainerColor = colorResource(id = R.color.text_black),
                     cursorColor = Color.White,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent

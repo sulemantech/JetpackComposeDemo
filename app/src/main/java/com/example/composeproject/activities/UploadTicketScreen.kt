@@ -102,7 +102,7 @@ fun UploadTicketScreen(navController: NavController) {
 
                 Text(
                     text = stringResource(id = R.string.Abbrechen),
-                    color = Color(0xFF10E0D7),
+                    color = colorResource(id = R.color.blue),
                     fontSize = 16.sp,
                     modifier = Modifier
                         .align(Alignment.Start)
@@ -169,6 +169,7 @@ fun UploadTicketScreen(navController: NavController) {
                                     .clip(RoundedCornerShape(12.dp))
                             )
                         }
+
                         selectedFileUri != null -> {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Icon(
@@ -185,6 +186,7 @@ fun UploadTicketScreen(navController: NavController) {
                                 )
                             }
                         }
+
                         else -> {
 
                             Image(
@@ -192,7 +194,7 @@ fun UploadTicketScreen(navController: NavController) {
                                 contentDescription = stringResource(id = R.string.Upload_Ticket_Icon),
                                 contentScale = ContentScale.Fit,
                                 modifier = Modifier
-                                    .size(150.dp,180.dp)
+                                    .size(150.dp, 180.dp)
                                     .padding(top = 40.dp) // Add top margin of 20dp
                             )
                         }
@@ -206,25 +208,44 @@ fun UploadTicketScreen(navController: NavController) {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    UploadOptionButton( text = stringResource(id = R.string.kamera), R.drawable.ic_camera, 115.dp) { cameraLauncher.launch() }
-                    UploadOptionButton( text = stringResource(id = R.string.bild), R.drawable.ic_gallery, 95.dp) { galleryLauncher.launch("image/*") }
-                    UploadOptionButton(text = stringResource(id = R.string.Dokument), R.drawable.ic_document, 130.dp) { documentLauncher.launch(arrayOf("*/*")) }
+                    UploadOptionButton(
+                        text = stringResource(id = R.string.kamera),
+                        R.drawable.ic_camera,
+                        115.dp
+                    ) { cameraLauncher.launch() }
+                    UploadOptionButton(
+                        text = stringResource(id = R.string.bild),
+                        R.drawable.ic_gallery,
+                        95.dp
+                    ) { galleryLauncher.launch("image/*") }
+                    UploadOptionButton(
+                        text = stringResource(id = R.string.Dokument),
+                        R.drawable.ic_document,
+                        130.dp
+                    ) { documentLauncher.launch(arrayOf("*/*")) }
 
-            }
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
                     onClick = { if (isUploadEnabled) navController.navigate("search_screen") },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isUploadEnabled)  colorResource(id = R.color.blue) else  colorResource(id = R.color.teal_700)
+                        containerColor = if (isUploadEnabled) colorResource(id = R.color.blue) else colorResource(
+                            id = R.color.teal_700
+                        )
                     ),
                     shape = RoundedCornerShape(12.dp),
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp),
                 ) {
-                    Text(text = "Hochladen", color = Color.Black, fontSize = 16.sp)
+                    Text(
+                        text = "Hochladen",
+                        color = colorResource(id = R.color.text_black),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
                 }
 
 
@@ -264,9 +285,9 @@ fun UploadOptionButton(text: String, iconRes: Int, width: Dp, onClick: () -> Uni
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = text,
-                color = Color.White,
+                color = colorResource(id = R.color.btn_text_field),
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Normal
+                fontWeight = FontWeight.Medium
             )
         }
     }
@@ -294,6 +315,7 @@ fun getFileName(context: Context, uri: Uri): String {
     }
     return name
 }
+
 @Preview
 @Composable
 fun PreviewUploadTicketBottomSheet() {

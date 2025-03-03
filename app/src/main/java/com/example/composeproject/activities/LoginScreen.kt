@@ -88,7 +88,7 @@ fun LoginScreen(navController: NavController) {
                 color = colorResource(id = R.color.btn_text_field),
                 fontSize = 24.sp,
                 fontFamily = robotoFontFamily,
-                fontWeight = FontWeight.W400,
+                fontWeight = FontWeight.W300,
                 textAlign = TextAlign.Center,
                // modifier = Modifier.padding(bottom = 40.dp)
             )
@@ -97,7 +97,7 @@ fun LoginScreen(navController: NavController) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = stringResource(id = R.string.e_mail),
-                    color = Color.White,
+                    color = colorResource(id = R.color.btn_text_field),
                     fontSize = 14.sp,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
@@ -119,7 +119,8 @@ fun LoginScreen(navController: NavController) {
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.e_mail),
-                            color = Color.Gray,
+                            color = colorResource(id = R.color.text_field_hint),
+                            fontWeight = FontWeight.Medium
 
                             )
                     },
@@ -134,7 +135,7 @@ fun LoginScreen(navController: NavController) {
                         focusedBorderColor = colorResource(id = R.color.blue),
                         unfocusedBorderColor = when {
                             isFocused -> colorResource(id = R.color.blue)
-                            isEmailValid -> colorResource(id = R.color.textColor1)
+                            isEmailValid -> colorResource(id = R.color.text_border)
                             else -> Color.Red
                         },
                         cursorColor = colorResource(id = R.color.blue)
@@ -174,7 +175,7 @@ fun LoginScreen(navController: NavController) {
                 ) {
                     Text(
                         text = if (!isEmailValid) "Einloggen" else stringResource(id = R.string.login_mit_magiclink),
-                        color = Color.Black,
+                        color = colorResource(id = R.color.text_black) ,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium
                     )
@@ -195,7 +196,7 @@ fun LoginScreen(navController: NavController) {
                     }
                 },
                 fontSize = 14.sp,
-                color = Color.White,
+                color = colorResource(id = R.color.btn_text_field),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
                     navController.navigate("registerScreen")

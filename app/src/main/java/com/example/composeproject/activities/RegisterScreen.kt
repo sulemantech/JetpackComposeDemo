@@ -65,7 +65,6 @@ fun RegisterScreen(navController: NavController) {
     val focusManager = LocalFocusManager.current
 
 
-
     val robotoFontFamily = FontFamily(
         Font(R.font.roboto_light)
     )
@@ -86,11 +85,11 @@ fun RegisterScreen(navController: NavController) {
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-          //  verticalArrangement = Arrangement.spacedBy(16.dp),
+            //  verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState())
-           // .windowInsetsPadding(WindowInsets.ime)
+            // .windowInsetsPadding(WindowInsets.ime)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_g8_way_welcome),
@@ -102,7 +101,7 @@ fun RegisterScreen(navController: NavController) {
 
             Text(
                 text = stringResource(id = R.string.register),
-                color = Color.White,
+                color = colorResource(id = R.color.btn_text_field),
                 fontSize = 24.sp,
                 fontFamily = robotoFontFamily,
                 textAlign = TextAlign.Center,
@@ -112,8 +111,9 @@ fun RegisterScreen(navController: NavController) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = stringResource(id = R.string.name),
-                    color = Color.White,
+                    color = colorResource(id = R.color.btn_text_field),
                     fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
@@ -131,7 +131,9 @@ fun RegisterScreen(navController: NavController) {
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.name),
-                            color = Color.Gray
+                            color = Color.Gray,
+                            fontWeight = FontWeight.Medium
+
                         )
                     },
                     modifier = Modifier
@@ -145,7 +147,7 @@ fun RegisterScreen(navController: NavController) {
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = colorResource(id = R.color.blue),
-                        unfocusedBorderColor = if (isNameFocused) colorResource(id = R.color.blue) else Color.Gray,
+                        unfocusedBorderColor = if (isNameFocused) colorResource(id = R.color.blue) else colorResource(id = R.color.text_border),
                         cursorColor = colorResource(id = R.color.blue)
                     ),
                     textStyle = TextStyle(color = Color.White),
@@ -166,10 +168,11 @@ fun RegisterScreen(navController: NavController) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = stringResource(id = R.string.e_mail),
-                    color = Color.White,
+                    color = colorResource(id = R.color.btn_text_field),
                     fontSize = 14.sp,
 //                    fontFamily = robotoFontFamily,
 //                    fontWeight = FontWeight.W400,
+                    fontWeight = FontWeight.Normal,
                     modifier = Modifier.padding(bottom = 8.dp, top = 10.dp)
                 )
 
@@ -193,7 +196,9 @@ fun RegisterScreen(navController: NavController) {
                     placeholder = {
                         Text(
                             text = stringResource(id = R.string.e_mail),
-                            color = Color.Gray
+                            color = Color.Gray,
+                            fontWeight = FontWeight.Medium
+
                         )
                     },
                     modifier = Modifier
@@ -206,7 +211,7 @@ fun RegisterScreen(navController: NavController) {
                         focusedBorderColor = colorResource(id = R.color.blue),
                         unfocusedBorderColor = when {
                             isFocused -> colorResource(id = R.color.blue)
-                            isEmailValid -> Color.Gray
+                            isEmailValid -> colorResource(id = R.color.text_border)
                             else -> Color.Red
                         },
                         cursorColor = colorResource(id = R.color.blue)
@@ -216,7 +221,8 @@ fun RegisterScreen(navController: NavController) {
                     keyboardActions = KeyboardActions(
                         onNext = {
                             focusManager.clearFocus()
-                            checkboxFocusRequester.requestFocus()                        }
+                            checkboxFocusRequester.requestFocus()
+                        }
                     ),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Next
@@ -265,7 +271,7 @@ fun RegisterScreen(navController: NavController) {
                         }
                     },
                     fontSize = 14.sp,
-                    color = Color.White,
+                    color = colorResource(id = R.color.btn_text_field ),
                     maxLines = 2,
                     softWrap = true,
                     lineHeight = 20.sp,
@@ -302,7 +308,7 @@ fun RegisterScreen(navController: NavController) {
                         }
                     },
                     fontSize = 14.sp,
-                    color = Color.White,
+                    color = colorResource(id = R.color.btn_text_field ),
                     maxLines = 2,
                     softWrap = true,
                     modifier = Modifier.padding(start = 7.5.dp)
@@ -333,7 +339,7 @@ fun RegisterScreen(navController: NavController) {
             ) {
                 Text(
                     text = stringResource(id = R.string.register),
-                    color = Color.Black,
+                    color = colorResource(id = R.color.text_black ),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -356,7 +362,7 @@ fun RegisterScreen(navController: NavController) {
                     }
                 },
                 fontSize = 14.sp,
-                color = Color.White,
+                color = colorResource(id = R.color.btn_text_field),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.clickable {
                     navController.navigate("loginScreen")
@@ -378,7 +384,7 @@ fun CustomCheckbox(
             .clip(RoundedCornerShape(6.dp))
             .border(
                 1.dp,
-                if (checked) colorResource(id = R.color.blue) else Color.Gray,
+                if (checked) colorResource(id = R.color.blue) else colorResource(id = R.color.text_border),
                 RoundedCornerShape(6.dp)
             )
             .background(if (checked) Color.Black else Color.Transparent),

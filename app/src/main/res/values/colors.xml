@@ -12,7 +12,10 @@
     <color name="textColor">#999999</color>
     <color name="textColor1">#6E6E6E4D</color>
     <color name="blue">#10E0D7</color>
+    <color name="text_border">#6E6E6E</color>
+    <color name="text_black">#1E1E1E</color>
     <color name="text_field">#E0E0E0</color>
+    <color name="text_field_hint">#878787</color>
     <color name="btn_text_field">#F0F0F0</color>
     <color name="email_text_field">#D7D7D7</color>
     <color name="image_background">#191818</color>
