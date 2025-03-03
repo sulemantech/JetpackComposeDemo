@@ -167,13 +167,13 @@ fun SearchScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(5.dp))
 
-//        Box(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 0.dp)
-//        ) {
-//            FloorMapWebView(url = "https://g8way-app.com/map/")
-//        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 0.dp)
+        ) {
+            FloorMapWebView(url = "https://g8way-app.com/map/")
+        }
 
     }
 }
