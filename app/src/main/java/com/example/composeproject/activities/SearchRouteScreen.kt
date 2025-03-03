@@ -174,11 +174,11 @@ fun SearchRouteScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(5.dp))
 
-        Box(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            FloorMapWebView1(url = "https://g8way-app.com/map/")
-        }
+//        Box(
+//            modifier = Modifier.fillMaxWidth()
+//        ) {
+//            FloorMapWebView1(url = "https://g8way-app.com/map/")
+//        }
     }
 }
 

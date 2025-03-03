@@ -115,33 +115,22 @@ fun SearchScreen(navController: NavController) {
                 {
 //                if (!showAutoComplete) {
 
-                    TextField(
-                        value = searchText,
-                        onValueChange = { searchText = it },
-                        placeholder = {
-                            Text(
-                                text = "Standort suchen & navi...",
-                                color = colorResource(id = R.color.textColor),
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Medium,
-                               // modifier = Modifier.padding(4.dp)
-                            )
-
-                        },
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(8.dp))
-                            .background(Color.Black),
-                        textStyle = LocalTextStyle.current.copy(color = Color.White),
-                        shape = RoundedCornerShape(8.dp),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = colorResource(id = R.color.text_black),
-                            focusedContainerColor =colorResource(id = R.color.text_black),
-                            cursorColor = Color.White,
-                            focusedIndicatorColor = Color.Transparent,
-                            unfocusedIndicatorColor = Color.Transparent
+                            .background(colorResource(id = R.color.text_black))
+                            .clickable {  }
+                            .padding(12.dp)
+                    ) {
+                        Text(
+                            text = "Standort suchen & navi...",
+                            color = colorResource(id = R.color.textColor),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Medium
                         )
-                    )
+                    }
+
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -167,13 +156,13 @@ fun SearchScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(5.dp))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 0.dp)
-        ) {
-            FloorMapWebView(url = "https://g8way-app.com/map/")
-        }
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 0.dp)
+//        ) {
+//            FloorMapWebView(url = "https://g8way-app.com/map/")
+//        }
 
     }
 }

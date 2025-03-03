@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-02-28T11:13:16.109298Z">
+        <DropdownSelection timestamp="2025-03-03T08:18:51.841726700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\metaf\.android\avd\Medium_Phone_API_30.avd" />
@@ -18,7 +18,7 @@
       </SelectionState>
       <SelectionState runConfigName="PreviewHomeScreen">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-02-28T11:16:26.402852200Z">
+        <DropdownSelection timestamp="2025-03-03T08:21:41.422524200Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\metaf\.android\avd\Medium_Phone_API_30.avd" />
@@ -43,7 +43,7 @@
       </SelectionState>
       <SelectionState runConfigName="PreviewSearchRouteScreen">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-03-03T06:35:38.379592700Z">
+        <DropdownSelection timestamp="2025-03-03T08:00:51.075492Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\metaf\.android\avd\Medium_Phone_API_30.avd" />
