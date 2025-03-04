@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,16 +25,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.composeproject.R
+import com.example.composeproject.viewmodel.WebViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
-fun SearchScreen(navController: NavController) {
+fun SearchScreen(
+    navController: NavController,
+    webViewModel: WebViewModel = viewModel()
+) {
     var searchText by remember { mutableStateOf("") }
     var showAutoComplete by remember { mutableStateOf(false) }
 
@@ -47,7 +55,6 @@ fun SearchScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = colorResource(id = R.color.background))
-
     ) {
         Column(
             modifier = Modifier
@@ -60,7 +67,6 @@ fun SearchScreen(navController: NavController) {
             ) {
                 Box(
                     modifier = Modifier
-                        .size(48.dp)
                         .height(50.dp)
                         .width(50.dp)
                         .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
@@ -89,8 +95,9 @@ fun SearchScreen(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(37.dp)
                     .background(colorResource(id = R.color.btnColor), RoundedCornerShape(8.dp))
-                    .padding(12.dp),
+                    .padding(2.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -111,16 +118,13 @@ fun SearchScreen(navController: NavController) {
                     .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally)
-                {
-//                if (!showAutoComplete) {
-
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(8.dp))
                             .background(colorResource(id = R.color.text_black))
-                            .clickable {  }
+                            .clickable { }
                             .padding(12.dp)
                     ) {
                         Text(
@@ -130,7 +134,6 @@ fun SearchScreen(navController: NavController) {
                             fontWeight = FontWeight.Medium
                         )
                     }
-
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -144,66 +147,49 @@ fun SearchScreen(navController: NavController) {
                     ) {
                         Text("Wegbeschreibung", color = Color.Black, fontSize = 16.sp)
                     }
-//                } else {
-//
-//                    AutoCompleteTextView(label = "Grobraum-büro")
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    AutoCompleteTextView(label = "Eingang West/Wartebereich")
-//                }
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(5.dp))
-
+//
 //        Box(
 //            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(horizontal = 0.dp)
+//                .fillMaxSize()
 //        ) {
-//            FloorMapWebView(url = "https://g8way-app.com/map/")
+//            FloorMapWebView(url = "https://g8way-app.com/map/", webViewModel)
+//
 //        }
 
+        BackHandler {
+            if (webViewModel.webView?.canGoBack() == true) {
+                webViewModel.webView?.goBack()
+            } else {
+                navController.popBackStack()
+            }
+        }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AutoCompleteTextView(label: String) {
-    var text by remember { mutableStateOf("") }
-
+fun ActionButton(text: String, iconRes: Int, width: Dp, buttonColor: Color, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .width(260.dp)
-            .background(Color.Black, RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(8.dp))
+            .background(buttonColor)
+            .clickable { onClick() }
+            .width(width)
+            .height(45.dp),
+        contentAlignment = Alignment.Center
     ) {
-        ExposedDropdownMenuBox(
-            expanded = false,
-            onExpandedChange = { /* Handle dropdown logic */ }
+        Row(
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            TextField(
-                value = text,
-                onValueChange = { text = it },
-                placeholder = { Text(label, color = Color.Gray) },
-                modifier = Modifier.fillMaxWidth(),
-                textStyle = LocalTextStyle.current.copy(color = Color.White),
-                colors = TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.Black,
-                    focusedContainerColor = Color.Black,
-                    cursorColor = Color.White,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                trailingIcon = {
-                    IconButton(onClick = { text = "" }) {
-                        Icon(
-                            imageVector = Icons.Default.Close,
-                            contentDescription = "Clear text",
-                            tint = Color.White
-                        )
-                    }
-
-                }
+            Image(
+                painter = painterResource(id = iconRes),
+                contentDescription = text,
+                modifier = Modifier.size(20.dp)
             )
         }
     }
@@ -211,22 +197,25 @@ fun AutoCompleteTextView(label: String) {
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun FloorMapWebView(url: String) {
+fun FloorMapWebView(url: String, webViewViewModel: WebViewModel) {
     val context = LocalContext.current
 
+    val webView = webViewViewModel.webView ?: WebView(context).apply {
+        layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        settings.javaScriptEnabled = true
+        settings.domStorageEnabled = true
+        webViewClient = WebViewClient()
+        webChromeClient = WebChromeClient()
+        loadUrl(url)
+    }
+
+    webViewViewModel.webView = webView
+
     AndroidView(
-        factory = {
-            WebView(context).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                settings.javaScriptEnabled = true
-                webViewClient = WebViewClient()
-                webChromeClient = WebChromeClient()
-                loadUrl(url)
-            }
-        },
+        factory = { webView },
         modifier = Modifier.fillMaxSize()
     )
 }

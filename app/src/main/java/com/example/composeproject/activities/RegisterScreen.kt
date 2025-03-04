@@ -62,6 +62,7 @@ fun RegisterScreen(navController: NavController) {
     val emailFocusRequester = remember { FocusRequester() }
     val checkboxFocusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(false) }
+    var showTermsDialog by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
 
@@ -147,7 +148,9 @@ fun RegisterScreen(navController: NavController) {
                     shape = RoundedCornerShape(12.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = colorResource(id = R.color.blue),
-                        unfocusedBorderColor = if (isNameFocused) colorResource(id = R.color.blue) else colorResource(id = R.color.text_border),
+                        unfocusedBorderColor = if (isNameFocused) colorResource(id = R.color.blue) else colorResource(
+                            id = R.color.text_border
+                        ),
                         cursorColor = colorResource(id = R.color.blue)
                     ),
                     textStyle = TextStyle(color = Color.White),
@@ -270,12 +273,14 @@ fun RegisterScreen(navController: NavController) {
                             )
                         }
                     },
+                    modifier = Modifier
+                        .clickable { showTermsDialog = true }
+                        .padding(start = 7.5.dp),
                     fontSize = 14.sp,
-                    color = colorResource(id = R.color.btn_text_field ),
+                    color = colorResource(id = R.color.btn_text_field),
                     maxLines = 2,
                     softWrap = true,
-                    lineHeight = 20.sp,
-                    modifier = Modifier.padding(start = 7.5.dp)
+                    lineHeight = 20.sp
                 )
             }
             Spacer(modifier = Modifier.height(24.dp))
@@ -308,7 +313,7 @@ fun RegisterScreen(navController: NavController) {
                         }
                     },
                     fontSize = 14.sp,
-                    color = colorResource(id = R.color.btn_text_field ),
+                    color = colorResource(id = R.color.btn_text_field),
                     maxLines = 2,
                     softWrap = true,
                     modifier = Modifier.padding(start = 7.5.dp)
@@ -339,7 +344,7 @@ fun RegisterScreen(navController: NavController) {
             ) {
                 Text(
                     text = stringResource(id = R.string.register),
-                    color = colorResource(id = R.color.text_black ),
+                    color = colorResource(id = R.color.text_black),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -368,6 +373,114 @@ fun RegisterScreen(navController: NavController) {
                     navController.navigate("loginScreen")
                 }
             )
+            if (showTermsDialog) {
+                TermsAndConditionsDialog(onDismiss =  { showTermsDialog = false })
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TermsAndConditionsDialog(onDismiss: () -> Unit) {
+    val robotoFontFamily1 = FontFamily(Font(R.font.roboto_regular))
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+        containerColor = colorResource(id = R.color.btnColor)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp)
+                .fillMaxWidth()
+                //.height(730.dp)
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = "Allgemeine\nGeschäftsbedingungen",
+                    fontSize = 24.sp,
+                    lineHeight = 28.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = colorResource(id = R.color.btn_text_field),
+                    modifier = Modifier.align(Alignment.CenterStart)
+                )
+
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .size(32.dp)
+                        .align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icon_close),
+                        contentDescription = "Close",
+                        tint = colorResource(id = R.color.btn_text_field)
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = "Willkommen bei GBWAY!\n" +
+                        "Bevor Sie unsere App nutzen, nehmen Sie sich bitte einen Moment Zeit, um unsere Allgemeinen Geschäftsbedingungen zu lesen " +
+                        "Durch den Zugriff auf oder die Nutzung unserer Dienste erklären Sie sich mit diesen Bedingungen einverstanden. Bitte lesen Sie sie sorgfältig durch.",
+                color = colorResource(id = R.color.btn_text_field),
+                fontSize = 16.sp,
+                lineHeight = 22.sp
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Terms List
+            Column {
+                listOf(
+                    "1. Zustimmung zu den Bedingungen:\n" +
+                            "Durch die Nutzung unserer App erklären Sie sich damit einverstanden, die Bedingungen dieser Vereinbarung einzuhalten und rechtlich daran gebunden zu sein.",
+
+                    "2. Änderungen der Bedingungen:\n" +
+                            "Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern. Sie verpflichten sich, diese regelmäßig zu überprüfen, um über etwaige Änderungen informiert zu sein.",
+
+                    "3. Pflichten des Nutzers:\n" +
+                            "Sie verpflichten sich, die App in Übereinstimmung mit allen geltenden Gesetzen und Vorschriften zu nutzen.",
+
+                    "4. Haftungsbeschränkung:\n" +
+                            "Wir haften nicht für indirekte, beiläufige oder Folgeschäden, die aus der Nutzung der App entstehen."
+                ).forEach { term ->
+                    Text(
+                        text = term,
+                        color = colorResource(id = R.color.btn_text_field),
+                        fontSize = 16.sp,
+                        lineHeight = 22.sp,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Button(
+                onClick = onDismiss,
+                colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue)),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+            ) {
+                Text(
+                    "Akzeptieren",
+                    color = colorResource(id = R.color.text_black),
+                    fontSize = 16.sp,
+                    fontFamily = robotoFontFamily1,
+                    fontWeight = FontWeight.W600
+                )
+            }
+
+            Spacer(modifier = Modifier.padding(bottom = 40.dp))
         }
     }
 }

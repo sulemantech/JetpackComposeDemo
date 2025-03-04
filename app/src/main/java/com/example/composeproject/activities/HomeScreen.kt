@@ -1,7 +1,6 @@
 package com.example.composeproject.activities
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
@@ -20,14 +19,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,18 +30,20 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.composeproject.R
+import com.example.composeproject.viewmodel.WebViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(
+    navController: NavController,
+    webViewViewModel: WebViewModel = viewModel()
+) {
     val context = LocalContext.current
-    val webView = remember { WebView(context) }
-    val view = LocalView.current
-
     val systemUiController = rememberSystemUiController()
     val backgroundColor = colorResource(id = R.color.background)
 
@@ -54,6 +51,25 @@ fun HomeScreen(navController: NavController) {
         systemUiController.setStatusBarColor(color = backgroundColor)
     }
 
+    // 🛠️ Check if WebView already exists in ViewModel; if not, create a new one
+    val webView = webViewViewModel.webView ?: WebView(context).apply {
+        layoutParams = ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            cacheMode = WebSettings.LOAD_DEFAULT
+            builtInZoomControls = false
+        }
+        webViewClient = WebViewClient()
+        webChromeClient = WebChromeClient()
+        loadUrl("https://g8way-app.com/map/")
+    }
+
+    // 🌟 Store WebView in ViewModel to persist it across navigations
+    webViewViewModel.webView = webView
 
     Column(
         modifier = Modifier
@@ -90,27 +106,11 @@ fun HomeScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(12.dp))
 
         Box(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
+            // 🚀 Use the existing WebView instance
             AndroidView(
-                factory = {
-                    webView.apply {
-                        layoutParams = ViewGroup.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
-                        )
-                        webViewClient = WebViewClient()
-                        webChromeClient = WebChromeClient()
-                        settings.apply {
-                            javaScriptEnabled = true
-                            domStorageEnabled = true
-                            cacheMode = WebSettings.LOAD_DEFAULT
-                            builtInZoomControls = false
-                        }
-                        loadUrl("https://g8way-app.com/map/")
-                    }
-                },
+                factory = { webView },
                 modifier = Modifier.fillMaxSize()
             )
 
@@ -119,30 +119,15 @@ fun HomeScreen(navController: NavController) {
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                UploadOption1(
-                    text = "",
-                    R.drawable.icon_notification,
-                    109.dp,
-                    buttonColor = colorResource(id = R.color.btnColor)
-                ) { }
-                UploadOption1(
-                    text = "",
-                    iconRes = R.drawable.icon_direction,
-                    width = 109.dp,
-                    buttonColor = colorResource(id = R.color.blue)
-                ) { }
-
-                UploadOption1(
-                    text = "",
-                    R.drawable.icon_setting,
-                    109.dp,
-                    buttonColor = colorResource(id = R.color.btnColor)
-                ) { }
+                UploadOption1("", R.drawable.icon_notification, 109.dp, colorResource(id = R.color.btnColor)) {}
+                UploadOption1("", R.drawable.icon_direction, 109.dp, colorResource(id = R.color.blue)) {}
+                UploadOption1("", R.drawable.icon_setting, 109.dp, colorResource(id = R.color.btnColor)) {}
             }
         }
 
+        // ⏪ Handle back press to navigate WebView history
         BackHandler {
             if (webView.canGoBack()) {
                 webView.goBack()
@@ -154,19 +139,12 @@ fun HomeScreen(navController: NavController) {
 }
 
 @Composable
-fun UploadOption1(text: String, iconRes: Int, width: Dp,buttonColor: Color, onClick: () -> Unit ) {
+fun UploadOption1(text: String, iconRes: Int, width: Dp, buttonColor: Color, onClick: () -> Unit) {
     Box(
         modifier = Modifier
-            .shadow(
-                elevation = 19.dp,
-                shape = RoundedCornerShape(8.dp),
-                ambientColor = Color.Black,
-                spotColor = Color.Black
-            )
             .clip(RoundedCornerShape(8.dp))
-            .background(colorResource(id = R.color.btnColor))
-            .clickable { onClick() }
             .background(buttonColor)
+            .clickable { onClick() }
             .width(width)
             .height(45.dp),
         contentAlignment = Alignment.Center
@@ -180,25 +158,12 @@ fun UploadOption1(text: String, iconRes: Int, width: Dp,buttonColor: Color, onCl
                 contentDescription = text,
                 modifier = Modifier.size(20.dp)
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = text,
-                color = Color.White,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Normal
-            )
         }
     }
 }
 
 @Composable
 fun NoTicketsAvailable(navController: NavController) {
-    val customFont = try {
-        FontFamily(Font(R.font.roboto_light, FontWeight.Light))
-    } catch (e: Exception) {
-        FontFamily.Default
-    }
-
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -206,9 +171,8 @@ fun NoTicketsAvailable(navController: NavController) {
             .background(colorResource(id = R.color.btnColor), shape = RoundedCornerShape(12.dp))
             .padding(16.dp)
             .clickable {
-                Log.d("Navigation", "Navigating to upload_ticket_screen")
                 navController.navigate("upload_ticket_screen")
-},
+            },
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -226,20 +190,13 @@ fun NoTicketsAvailable(navController: NavController) {
                 fontWeight = FontWeight.Normal
             )
             Spacer(modifier = Modifier.height(4.dp))
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = "Tippe auf das Kreuz oben, um ein Ticket zu \nimportieren.",
-                    color = colorResource(id = R.color.textColor),
-                    fontSize = 14.sp,
-                    fontFamily = customFont,
-                    fontWeight = FontWeight.Normal,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+            Text(
+                text = "Tippe auf das Kreuz oben, um ein Ticket zu importieren.",
+                color = colorResource(id = R.color.textColor),
+                fontSize = 14.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
