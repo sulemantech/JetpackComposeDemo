@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +52,6 @@ fun HomeScreen(
         systemUiController.setStatusBarColor(color = backgroundColor)
     }
 
-    // 🛠️ Check if WebView already exists in ViewModel; if not, create a new one
     val webView = webViewViewModel.webView ?: WebView(context).apply {
         layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -68,7 +68,6 @@ fun HomeScreen(
         loadUrl("https://g8way-app.com/map/")
     }
 
-    // 🌟 Store WebView in ViewModel to persist it across navigations
     webViewViewModel.webView = webView
 
     Column(
@@ -83,7 +82,7 @@ fun HomeScreen(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Meine Flüge",
+                text = stringResource(id = R.string.my_flights),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -98,9 +97,10 @@ fun HomeScreen(
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            CategoryButton("Geschäfte", R.drawable.icon_shop)
-            CategoryButton("Gates", R.drawable.icon_gate)
-            CategoryButton("Lounge", R.drawable.ic_lounge)
+            CategoryButton(stringResource(id = R.string.category_shops), R.drawable.icon_shop)
+            CategoryButton(stringResource(id = R.string.category_gates), R.drawable.icon_gate)
+            CategoryButton(stringResource(id = R.string.category_lounge), R.drawable.ic_lounge)
+
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -108,7 +108,7 @@ fun HomeScreen(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            // 🚀 Use the existing WebView instance
+
             AndroidView(
                 factory = { webView },
                 modifier = Modifier.fillMaxSize()
@@ -127,7 +127,6 @@ fun HomeScreen(
             }
         }
 
-        // ⏪ Handle back press to navigate WebView history
         BackHandler {
             if (webView.canGoBack()) {
                 webView.goBack()
@@ -184,14 +183,14 @@ fun NoTicketsAvailable(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Keine Tickets verfügbar",
+                text = stringResource(id = R.string.no_tickets_available),
                 color = Color.White,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "Tippe auf das Kreuz oben, um ein Ticket zu importieren.",
+                text = stringResource(id = R.string.tap_to_import_ticket),
                 color = colorResource(id = R.color.textColor),
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center,

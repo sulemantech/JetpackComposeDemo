@@ -217,5 +217,5 @@ fun isValidEmail(email: String): Boolean {
 @Composable
 fun PreviewLoginScreen() {
     LoginScreen(navController = rememberNavController())
-}//i want proper screen scroll
+}
 

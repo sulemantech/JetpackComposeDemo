@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,7 +49,12 @@ fun SearchRouteScreen(
         systemUiController.setStatusBarColor(color = backgroundColor)
     }
 
-    val locations = listOf("Großraumbüro", "Eingang West", "Meeting Room", "Lobby")
+    val locations = listOf(
+        stringResource(id = R.string.location_open_office),
+        stringResource(id = R.string.location_entrance_west),
+        stringResource(id = R.string.location_meeting_room),
+        stringResource(id = R.string.location_lobby)
+    )
 
     Column(
         modifier = Modifier
@@ -88,7 +94,10 @@ fun SearchRouteScreen(
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
+                Text(
+                    text = stringResource(id = R.string.search),
+                    color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500
+                )
             }
 
 
@@ -104,7 +113,7 @@ fun SearchRouteScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Hallo Niko Rangos",
+                    text = stringResource(id = R.string.hello_niko_rangos),
                     color = colorResource(id = R.color.btn_text_field),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
@@ -132,12 +141,15 @@ fun SearchRouteScreen(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Top
                     ) {
-
-                        IconButton(onClick = { }) {
+                        IconButton(onClick = {},
+                            modifier = Modifier
+                                .height(60.dp)
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_location),
-                                contentDescription = "Right Arrow",
-                                tint = Color.White
+                                contentDescription = "Close",
+                                tint = colorResource(id = R.color.btn_text_field)
+
                             )
                         }
                     }
@@ -147,7 +159,7 @@ fun SearchRouteScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         AutoCompleteTextField(
-                            label = "Grobraum-büro",
+                            label = stringResource(id = R.string.label_open_office),
                             text = startPoint,
                             onTextChange = { startPoint = it },
                             suggestions = locations
@@ -156,7 +168,7 @@ fun SearchRouteScreen(
                         Spacer(modifier = Modifier.height(8.dp))
 
                         AutoCompleteTextField(
-                            label = "Eingang West/Wartebe...",
+                            label = stringResource(id = R.string.label_entrance_west),
                             text = destination,
                             onTextChange = { destination = it },
                             suggestions = locations
@@ -181,13 +193,13 @@ fun SearchRouteScreen(
 
         Spacer(modifier = Modifier.height(5.dp))
 
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//        ) {
-//            FloorMapWebView1(url = "https://g8way-app.com/map/", webViewModel)
-//
-//        }
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            FloorMapWebView1(url = "https://g8way-app.com/map/", webViewModel)
+
+        }
 
         BackHandler {
             if (webViewModel.webView?.canGoBack() == true) {
@@ -306,5 +318,5 @@ fun FloorMapWebView1(url: String, webViewViewModel: WebViewModel) {
 @Composable
 fun PreviewSearchRouteScreen() {
     SearchRouteScreen(navController = rememberNavController())
-}//jab text long ho us case me cross ko move ni hona chahiye wo apni jga hi rhy
+}
 

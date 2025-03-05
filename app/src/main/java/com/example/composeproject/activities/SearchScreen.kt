@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -87,7 +88,10 @@ fun SearchScreen(
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                Text("Suchen", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500)
+                Text(
+                    text = stringResource(id = R.string.search),
+                    color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.W500
+                )
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -101,7 +105,7 @@ fun SearchScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Hallo Niko Rangos",
+                    text = stringResource(id = R.string.hello_niko_rangos),
                     color = Color.White,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Center,
@@ -128,7 +132,7 @@ fun SearchScreen(
                             .padding(12.dp)
                     ) {
                         Text(
-                            text = "Standort suchen & navi...",
+                            text = stringResource(id = R.string.search_location_navi),
                             color = colorResource(id = R.color.textColor),
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Medium
@@ -145,21 +149,24 @@ fun SearchScreen(
                         shape = RoundedCornerShape(8.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = colorResource(id = R.color.blue))
                     ) {
-                        Text("Wegbeschreibung", color = Color.Black, fontSize = 16.sp)
+                        Text(
+                            text = stringResource(id = R.string.directions),
+                            color = Color.Black, fontSize = 16.sp
+                        )
                     }
                 }
             }
         }
 
         Spacer(modifier = Modifier.height(5.dp))
-//
-//        Box(
-//            modifier = Modifier
-//                .fillMaxSize()
-//        ) {
-//            FloorMapWebView(url = "https://g8way-app.com/map/", webViewModel)
-//
-//        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            FloorMapWebView(url = "https://g8way-app.com/map/", webViewModel)
+
+        }
 
         BackHandler {
             if (webViewModel.webView?.canGoBack() == true) {

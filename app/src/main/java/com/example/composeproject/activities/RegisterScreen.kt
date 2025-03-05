@@ -1,5 +1,7 @@
 package com.example.composeproject.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,6 +23,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
@@ -65,6 +68,7 @@ fun RegisterScreen(navController: NavController) {
     var showTermsDialog by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
+    val context = LocalContext.current
 
     val robotoFontFamily = FontFamily(
         Font(R.font.roboto_light)
@@ -273,14 +277,19 @@ fun RegisterScreen(navController: NavController) {
                             )
                         }
                     },
-                    modifier = Modifier
-                        .clickable { showTermsDialog = true }
-                        .padding(start = 7.5.dp),
                     fontSize = 14.sp,
                     color = colorResource(id = R.color.btn_text_field),
                     maxLines = 2,
                     softWrap = true,
-                    lineHeight = 20.sp
+                    lineHeight = 20.sp,
+                    modifier = Modifier
+                        .padding(start = 7.5.dp)
+                        .clickable {
+                            val url =
+                                "https://g8way-app.com/impressum.html"
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            context.startActivity(intent)
+                        }
                 )
             }
             Spacer(modifier = Modifier.height(24.dp))
@@ -307,16 +316,21 @@ fun RegisterScreen(navController: NavController) {
                                 textDecoration = TextDecoration.Underline
                             )
                         ) {
-                            append(
-                                stringResource(id = R.string.Datenschutzerklärung)
-                            )
+                            append(stringResource(id = R.string.Datenschutzerklärung))
                         }
                     },
                     fontSize = 14.sp,
                     color = colorResource(id = R.color.btn_text_field),
                     maxLines = 2,
                     softWrap = true,
-                    modifier = Modifier.padding(start = 7.5.dp)
+                    modifier = Modifier
+                        .padding(start = 7.5.dp)
+                        .clickable {
+                            val url =
+                                "https://g8way-app.com/datenschutz.html"
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            context.startActivity(intent)
+                        }
                 )
             }
 
@@ -373,9 +387,9 @@ fun RegisterScreen(navController: NavController) {
                     navController.navigate("loginScreen")
                 }
             )
-            if (showTermsDialog) {
-                TermsAndConditionsDialog(onDismiss =  { showTermsDialog = false })
-            }
+//            if (showTermsDialog) {
+//                TermsAndConditionsDialog(onDismiss = { showTermsDialog = false })
+//            }
         }
     }
 }
@@ -392,9 +406,8 @@ fun TermsAndConditionsDialog(onDismiss: () -> Unit) {
     ) {
         Column(
             modifier = Modifier
-                .padding(start = 16.dp, end = 16.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxWidth()
-                //.height(730.dp)
         ) {
             Box(
                 modifier = Modifier.fillMaxWidth()
@@ -405,7 +418,9 @@ fun TermsAndConditionsDialog(onDismiss: () -> Unit) {
                     lineHeight = 28.sp,
                     fontWeight = FontWeight.Normal,
                     color = colorResource(id = R.color.btn_text_field),
-                    modifier = Modifier.align(Alignment.CenterStart)
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(top = 20.dp)
                 )
 
                 IconButton(
@@ -413,6 +428,7 @@ fun TermsAndConditionsDialog(onDismiss: () -> Unit) {
                     modifier = Modifier
                         .size(32.dp)
                         .align(Alignment.TopEnd)
+                        .padding(bottom = 20.dp, end = 16.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.icon_close),
@@ -426,7 +442,7 @@ fun TermsAndConditionsDialog(onDismiss: () -> Unit) {
 
             Text(
                 text = "Willkommen bei GBWAY!\n" +
-                        "Bevor Sie unsere App nutzen, nehmen Sie sich bitte einen Moment Zeit, um unsere Allgemeinen Geschäftsbedingungen zu lesen " +
+                        "Bevor Sie unsere App nutzen, nehmen Sie sich bitte einen Moment Zeit, um unsere Allgemeinen Geschäftsbedingungen zu lesen. " +
                         "Durch den Zugriff auf oder die Nutzung unserer Dienste erklären Sie sich mit diesen Bedingungen einverstanden. Bitte lesen Sie sie sorgfältig durch.",
                 color = colorResource(id = R.color.btn_text_field),
                 fontSize = 16.sp,
@@ -435,7 +451,6 @@ fun TermsAndConditionsDialog(onDismiss: () -> Unit) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Terms List
             Column {
                 listOf(
                     "1. Zustimmung zu den Bedingungen:\n" +

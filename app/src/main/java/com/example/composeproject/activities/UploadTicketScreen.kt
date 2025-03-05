@@ -241,7 +241,7 @@ fun UploadTicketScreen(navController: NavController) {
                         .height(50.dp),
                 ) {
                     Text(
-                        text = "Hochladen",
+                        text = stringResource(id = R.string.upload),
                         color = colorResource(id = R.color.text_black),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.ExtraBold

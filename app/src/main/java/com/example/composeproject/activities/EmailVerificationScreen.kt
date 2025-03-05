@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +29,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 @Composable
-fun EmailVerificationScreen (navController: NavController){
+fun EmailVerificationScreen(navController: NavController) {
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.checkmails))
     val progress by animateLottieCompositionAsState(composition)
@@ -46,11 +47,11 @@ fun EmailVerificationScreen (navController: NavController){
 
 
     Box(
-    modifier = Modifier
-    .fillMaxSize()
-    .background(color = colorResource(id = R.color.background))
-    .padding(16.dp),
-    contentAlignment = Alignment.Center
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = colorResource(id = R.color.background))
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     )
 
     {
@@ -67,15 +68,13 @@ fun EmailVerificationScreen (navController: NavController){
             Image(
                 painter = painterResource(id = R.drawable.ic_for_verification),
                 contentDescription = "Image from resources",
-                modifier = Modifier.size(147.dp,39.dp),
+                modifier = Modifier.size(147.dp, 39.dp),
                 contentScale = ContentScale.Crop
             )
             Spacer(modifier = Modifier.height(33.dp))
 
             Text(
-                text = "Bitte überprüfe Deine \n" +
-                        "E-Mails und tippe auf \n" +
-                        "den Link.",
+                text = stringResource(id = R.string.check_email),
                 color = colorResource(id = R.color.email_text_field),
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
@@ -87,11 +86,11 @@ fun EmailVerificationScreen (navController: NavController){
 
         }
 
-        }
     }
+}
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewEmailVerification(){
-    EmailVerificationScreen(navController =rememberNavController())
+fun PreviewEmailVerification() {
+    EmailVerificationScreen(navController = rememberNavController())
 }
