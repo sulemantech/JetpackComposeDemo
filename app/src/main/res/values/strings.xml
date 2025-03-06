@@ -14,10 +14,10 @@
     <string name="Registrieren">Register</string>
     <string name="e_mail_icon">E-Mail Icon</string>
     <string name="login_mit_magiclink">Login with Magic Link</string>
-    <string name="diese_e_mail_ist_nicht_registriert.">This email is not registered.</string>
+    <string name="diese_e_mail_ist_nicht_registriert">This email is not registered.</string>
     <string name="diese_e_mail_ist_bereits_registriert">This email is already registered.</string>
     <string name="munich_airport">Munich Airport (334 km)</string>
-    <string name="no_account">No account yet? %s</string>
+    <string name="no_account">No account yet?</string>
     <string name="Ich_akzeptiere_die">I accept the</string>
     <string name="Allgemeinen"> General\nTerms and Conditions</string>
     <string name="Datenschutzerklärung"> Privacy Policy</string>
@@ -30,7 +30,7 @@
     <string name="bild">Image</string>
     <string name="Dokument">Document</string>
     <string name="Hochladen">Upload</string>
-    <string name="Einloggen">Log in</string>
+    <string name="Einloggen">Login</string>
     <string name="Profile_Icon">Profile Icon</string>
     <string name="e_mail_Icon">E-Mail Icon</string>
     <string name="my_flights">My Flights</string>
@@ -51,4 +51,5 @@
     <string name="location_lobby">Lobby</string>
     <string name="tap_to_import_ticket">Tap on the cross above to import\na ticket.</string>
     <string name="check_email">Please check your\nemails and tap on\nthe link.</string>
+    <string name="have_account">No account yet?</string>
 </resources>

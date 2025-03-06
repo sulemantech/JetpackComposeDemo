@@ -251,7 +251,7 @@ fun RegisterScreen(navController: NavController) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                CustomCheckbox(
+                CustomCheckbox1(
                     checked = isTermsAccepted,
                     onCheckedChange = { isTermsAccepted = it },
                     modifier = Modifier
@@ -300,7 +300,7 @@ fun RegisterScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(bottom = 10.dp)
             ) {
-                CustomCheckbox(
+                CustomCheckbox1(
                     checked = isPrivacyAccepted,
                     onCheckedChange = { isPrivacyAccepted = it },
                     modifier = Modifier.padding(start = 5.dp)
@@ -501,7 +501,7 @@ fun TermsAndConditionsDialog(onDismiss: () -> Unit) {
 }
 
 @Composable
-fun CustomCheckbox(
+fun CustomCheckbox1(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier
@@ -515,7 +515,7 @@ fun CustomCheckbox(
                 if (checked) colorResource(id = R.color.blue) else colorResource(id = R.color.text_border),
                 RoundedCornerShape(6.dp)
             )
-            .background(if (checked) Color.Black else Color.Transparent),
+            .background(if (checked)  colorResource(id = R.color.background)  else Color.Transparent),
         contentAlignment = Alignment.Center
     ) {
         Checkbox(

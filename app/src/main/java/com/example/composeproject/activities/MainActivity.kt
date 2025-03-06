@@ -54,13 +54,14 @@ fun AppNavigation(navController: NavHostController) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "G8WayScreen") {
         composable("G8WayScreen") { G8WayScreen(navController) }
-        composable("loginScreen") { LoginScreen(navController) }
-        composable("registerScreen") { RegisterScreen(navController) }
+      //  composable("loginScreen") { LoginScreen(navController) }
+      //  composable("registerScreen") { RegisterScreen(navController) }
         composable("EmailVerificationScreen") { EmailVerificationScreen(navController) }
         composable("homeScreen") { HomeScreen(navController) }
         composable("upload_ticket_screen") { UploadTicketScreen(navController) }
         composable("search_screen") { SearchScreen(navController) }
         composable("search_route_screen") { SearchRouteScreen(navController) }
+        composable("auth_activity") { AuthScreen(navController) }
     }
 }
 
@@ -158,7 +159,7 @@ fun G8WayScreen(navController: NavController) {
 
             Button(
                 onClick = {
-                    navController.navigate("loginScreen")
+                    navController.navigate("auth_activity")
                 },
                 modifier = Modifier
                     .fillMaxWidth()

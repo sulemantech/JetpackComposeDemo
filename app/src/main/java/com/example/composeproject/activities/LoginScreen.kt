@@ -146,7 +146,7 @@ fun LoginScreen(navController: NavController) {
 
                 if (!isEmailValid) {
                     Text(
-                        text = stringResource(id = R.string.diese_e_mail_ist_nicht_registriert_),
+                        text = stringResource(id = R.string.diese_e_mail_ist_nicht_registriert),
                         color = Color.Red,
                         fontSize = 14.sp,
                         modifier = Modifier.padding(start = 6.dp, top = 4.dp)

@@ -15,10 +15,10 @@
     <string name="Registrieren">Registrieren</string>
     <string name="e_mail_icon">E-Mail-Symbol</string>
     <string name="login_mit_magiclink">Login mit Magic Link</string>
-    <string name="diese_e_mail_ist_nicht_registriert.">Diese E-Mail ist nicht registriert.</string>
+    <string name="diese_e_mail_ist_nicht_registriert">Diese E-Mail ist nicht registriert.</string>
     <string name="diese_e_mail_ist_bereits_registriert">Diese E-Mail ist bereits registriert.</string>
     <string name="munich_airport">Flughafen München (334 km)</string>
-    <string name="no_account">Noch kein Konto? %s</string>
+    <string name="no_account">Noch kein Konto?</string>
     <string name="Ich_akzeptiere_die">Ich akzeptiere die</string>
     <string name="Allgemeinen">Allgemeinen\nGeschäftsbedingungen</string>
     <string name="Datenschutzerklärung">Datenschutzerklärung</string>
@@ -50,6 +50,7 @@
     <string name="location_entrance_west">Eingang West</string>
     <string name="location_meeting_room">Meeting Room</string>
     <string name="location_lobby">Lobby</string>
+    <string name="have_account">Noch kein Konto?</string>
     <string name="tap_to_import_ticket">Tippe auf das Kreuz oben, um ein Ticket zu\nimportieren.</string>
     <string name="check_email">Bitte überprüfe Deine\nE-Mails und tippe auf\nden Link.</string>
 </resources>
