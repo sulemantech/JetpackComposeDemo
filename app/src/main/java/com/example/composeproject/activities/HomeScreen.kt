@@ -38,6 +38,7 @@ import com.example.composeproject.R
 import com.example.composeproject.viewmodel.WebViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun HomeScreen(
@@ -47,6 +48,10 @@ fun HomeScreen(
     val context = LocalContext.current
     val systemUiController = rememberSystemUiController()
     val backgroundColor = colorResource(id = R.color.background)
+
+    val sheetState = rememberModalBottomSheetState()
+    var showBottomSheet by remember { mutableStateOf(false) }
+
 
     SideEffect {
         systemUiController.setStatusBarColor(color = backgroundColor)
@@ -126,6 +131,16 @@ fun HomeScreen(
                 UploadOption1("", R.drawable.icon_setting, 109.dp, colorResource(id = R.color.btnColor)) {}
             }
         }
+
+//        if (showBottomSheet) {
+//            ModalBottomSheet(
+//                sheetState = sheetState,
+//                onDismissRequest = { showBottomSheet = false },
+//                containerColor = colorResource(id = R.color.btnColor)
+//            ) {
+//                UploadTicketScreen(navController)
+//            }
+//        }
 
         BackHandler {
             if (webView.canGoBack()) {

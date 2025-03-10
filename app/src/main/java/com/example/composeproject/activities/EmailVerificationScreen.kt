@@ -32,8 +32,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun EmailVerificationScreen(navController: NavController) {
 
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.checkmails))
-    val progress by animateLottieCompositionAsState(composition)
-
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = Int.MAX_VALUE
+    )
     val systemUiController = rememberSystemUiController()
     val backgroundColor = colorResource(id = R.color.background)
 
@@ -61,7 +63,7 @@ fun EmailVerificationScreen(navController: NavController) {
             modifier = Modifier.fillMaxWidth()
         ) {
 
-            LottieAnimation(composition, progress, modifier = Modifier.size(150.dp))
+            LottieAnimation(composition = composition, progress = progress, modifier = Modifier.size(150.dp))
 
             Spacer(modifier = Modifier.height(70.dp))
 
