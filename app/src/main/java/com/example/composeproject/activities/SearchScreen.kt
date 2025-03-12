@@ -151,7 +151,7 @@ fun SearchScreen(
                     ) {
                         Text(
                             text = stringResource(id = R.string.directions),
-                            color = Color.Black, fontSize = 16.sp
+                            color = Color.Black, fontSize = 16.sp, fontWeight = FontWeight.W500
                         )
                     }
                 }

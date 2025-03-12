@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.composeproject.R
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
@@ -88,6 +88,7 @@ fun LoginScreen1(navController: NavController, onSwitch: () -> Unit) {
     var isFocused by remember { mutableStateOf(false) }
     val robotoFontFamily = FontFamily(Font(R.font.roboto_light))
     val scrollState = rememberScrollState()
+    val coroutineScope = rememberCoroutineScope()
 
     val robotoFontFamily1 = FontFamily(
         Font(R.font.roboto_regular)
@@ -192,11 +193,15 @@ fun LoginScreen1(navController: NavController, onSwitch: () -> Unit) {
 
                 Spacer(modifier = Modifier.height(40.dp))
 
+
                 Button(
                     onClick = {
-                        isEmailValid = isValidEmail1(email.text)
-                        if (isEmailValid) {
-                            navController.navigate("EmailVerificationScreen")
+                        coroutineScope.launch {
+                            isEmailValid = isValidEmail1(email.text)
+                            if (isEmailValid) {
+                                delay(500)
+                                navController.navigate("EmailVerificationScreen")
+                            }
                         }
                     },
                     modifier = Modifier
@@ -214,9 +219,10 @@ fun LoginScreen1(navController: NavController, onSwitch: () -> Unit) {
                         text = if (!isEmailValid) "Einloggen" else stringResource(id = R.string.login_mit_magiclink),
                         color = colorResource(id = R.color.text_black),
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.W500
                     )
                 }
+
             }
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -620,7 +626,7 @@ fun RegisterScreen1(navController: NavController, onSwitch: () -> Unit) {
                     text = stringResource(id = R.string.register),
                     color = colorResource(id = R.color.text_black),
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.W500
                 )
             }
             Spacer(modifier = Modifier.height(24.dp))

@@ -41,10 +41,10 @@
     <string name="upload">Upload</string>
     <string name="search">Search</string>
     <string name="hello_niko_rangos">Hello Niko Rangos</string>
-    <string name="search_location_navi">Search location &amp; navigate...</string>
+    <string name="search_location_navi">Search location &amp; navigate…</string>
     <string name="directions">Directions</string>
     <string name="label_open_office">Open-plan office</string>
-    <string name="label_entrance_west">Entrance West/Waiting area...</string>
+    <string name="label_entrance_west">Entrance West/Waiting area…</string>
     <string name="location_open_office">Open-plan office</string>
     <string name="location_entrance_west">Entrance West</string>
     <string name="location_meeting_room">Meeting Room</string>
