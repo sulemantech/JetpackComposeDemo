@@ -4,8 +4,14 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -34,34 +40,48 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.navigation.NavHostController
 import com.example.composeproject.R
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-
+import kotlinx.coroutines.launch
 
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalAnimationApi::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
+            val navController = rememberAnimatedNavController()
             AppNavigation(navController)
         }
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AppNavigation(navController: NavHostController) {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "G8WayScreen") {
-        composable("G8WayScreen") { G8WayScreen(navController) }
-      //  composable("loginScreen") { LoginScreen(navController) }
-      //  composable("registerScreen") { RegisterScreen(navController) }
-        composable("EmailVerificationScreen") { EmailVerificationScreen(navController) }
-        composable("homeScreen") { HomeScreen(navController) }
-        composable("upload_ticket_screen") { UploadTicketScreen(navController) }
-        composable("search_screen") { SearchScreen(navController) }
-        composable("search_route_screen") { SearchRouteScreen(navController) }
-        composable("auth_activity") { AuthScreen(navController) }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(colorResource(id = R.color.background))
+    ) {
+        AnimatedNavHost(
+            navController = navController,
+            startDestination = "G8WayScreen",
+            enterTransition = { slideInHorizontally(initialOffsetX = { 1100 }, animationSpec = tween(700)) },
+            exitTransition = { slideOutHorizontally(targetOffsetX = { -1100 }, animationSpec = tween(700)) },
+            popEnterTransition = { slideInHorizontally(initialOffsetX = { -1100 }, animationSpec = tween(700)) },
+            popExitTransition = { slideOutHorizontally(targetOffsetX = { 1100 }, animationSpec = tween(700)) }
+        ) {
+            composable("G8WayScreen") { G8WayScreen(navController) }
+            composable("EmailVerificationScreen") { EmailVerificationScreen(navController) }
+            composable("homeScreen") { HomeScreen(navController) }
+            composable("upload_ticket_screen") { UploadTicketScreen(navController) }
+            composable("search_screen") { SearchScreen(navController) }
+            composable("search_route_screen") { SearchRouteScreen(navController) }
+            composable("auth_activity") { AuthScreen(navController) }
+        }
     }
 }
 
@@ -70,6 +90,8 @@ fun AppNavigation(navController: NavHostController) {
 fun G8WayScreen(navController: NavController) {
     val systemUiController = rememberSystemUiController()
     val backgroundColor = colorResource(id = R.color.background)
+
+    val coroutineScope = rememberCoroutineScope()
 
     SideEffect {
         systemUiController.setStatusBarColor(color = backgroundColor)
@@ -159,7 +181,9 @@ fun G8WayScreen(navController: NavController) {
 
             Button(
                 onClick = {
-                    navController.navigate("auth_activity")
+                    coroutineScope.launch {
+                        navController.navigate("auth_activity")
+                    }
                 },
                 modifier = Modifier
                     .fillMaxWidth()

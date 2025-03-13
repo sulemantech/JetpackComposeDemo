@@ -94,8 +94,12 @@ dependencies {
     implementation( libs.androidx.datastore.preferences)
     implementation (libs.androidx.ui.tooling.preview.v150)
     implementation (libs.lottie.compose)
-    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.1")
+    implementation (libs.accompanist.systemuicontroller)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation (libs.accompanist.navigation.animation)
+    implementation(libs.accompanist.navigation.animation.v0320)
+
+
 }
 
 fun kapt(s: String) {

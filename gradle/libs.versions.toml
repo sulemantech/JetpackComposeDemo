@@ -1,4 +1,6 @@
 [versions]
+accompanistNavigationAnimation = "0.30.1"
+accompanistNavigationAnimationVersion = "0.32.0"
 agp = "8.6.1"
 androidxMaterial3 = "1.2.0"
 coreKtxVersion = "1.12.0"
@@ -27,6 +29,9 @@ foundationLayoutAndroid = "1.7.2"
 benchmarkMacro = "1.3.3"
 
 [libraries]
+accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
+accompanist-navigation-animation-v0320 = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimationVersion" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistNavigationAnimation" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-ktx-v1120 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }

@@ -315,6 +315,8 @@ fun RegisterScreen1(navController: NavController, onSwitch: () -> Unit) {
     var showTermsError by remember { mutableStateOf(false) }
     var showPrivacyError by remember { mutableStateOf(false) }
 
+    val coroutineScope = rememberCoroutineScope()
+
     val focusManager = LocalFocusManager.current
 
     val context = LocalContext.current
@@ -547,7 +549,7 @@ fun RegisterScreen1(navController: NavController, onSwitch: () -> Unit) {
                         }
                 )
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(15.dp))
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -603,13 +605,14 @@ fun RegisterScreen1(navController: NavController, onSwitch: () -> Unit) {
 
             Button(
                 onClick = {
-                    isEmailValid = isValidEmail1(email.text)
-                    if (!isTermsAccepted) showTermsError = true
-                    if (!isPrivacyAccepted) showPrivacyError = true
-                    if (isEmailValid && email.text.isNotEmpty() && isTermsAccepted && isPrivacyAccepted) {
-                        navController.navigate("homeScreen")
+                    coroutineScope.launch {
+                        isEmailValid = isValidEmail1(email.text)
+                        if (!isTermsAccepted) showTermsError = true
+                        if (!isPrivacyAccepted) showPrivacyError = true
+                        if (isEmailValid && email.text.isNotEmpty() && isTermsAccepted && isPrivacyAccepted) {
+                            navController.navigate("homeScreen")
+                        }
                     }
-
                 },
                 modifier = Modifier
                     .fillMaxWidth()
